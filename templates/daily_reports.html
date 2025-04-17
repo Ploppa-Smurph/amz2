@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Daily Reports Overview{% endblock %}
+{% block content %}
+<div class="container reports-container">
+  <h2>Daily Reports Overview</h2>
+  {% if grouped_reports %}
+    {% for day, reports in grouped_reports.items() %}
+      {% if reports|length > 0 %}
+        <div class="day-group">
+          <h3>{{ day.strftime('%Y-%m-%d') }}</h3>
+          <div class="image-grid preview">
+            {% for report in reports[:5] %}
+              <div class="image-item">
+                {% if report.image_data %}
+                  <img src="data:{{ report.image_mimetype }};base64,{{ report.image_data | b64str }}" alt="{{ report.title }}">
+                {% elif report.s3_key %}
+                  <img src="{{ report.s3_key | public_url }}" alt="{{ report.title }}">
+                {% else %}
+                  <p>No image available.</p>
+                {% endif %}
+              </div>
+            {% endfor %}
+          </div>
+          {% if reports|length > 5 %}
+            <div style="text-align: right; margin-top: 0.5rem;">
+              <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d')) }}" class="btn btn-info">
+                View All Reports for {{ day.strftime('%Y-%m-%d') }}
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% else %}
+    <p>No reports found.</p>
+  {% endif %}
+</div>
+{% endblock %}

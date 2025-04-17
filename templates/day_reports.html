@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Reports for {{ day.strftime('%Y-%m-%d') }}{% endblock %}
+{% block content %}
+<!-- Notice the new "day-reports-container" class -->
+<div class="container day-reports-container">
+  <h2>Reports for {{ day.strftime('%Y-%m-%d') }}</h2>
+  <!-- Optionally add a custom class (day-grid) here if you wish; our CSS below targets day-reports-container .image-grid -->
+  <div class="image-grid">
+    {% for report in reports %}
+      <div class="image-item">
+        <div class="image-wrapper">
+          {% if report.image_data %}
+            <img src="data:{{ report.image_mimetype }};base64,{{ report.image_data | b64str }}" alt="{{ report.title }}" class="report-thumb">
+          {% elif report.s3_key %}
+            <img src="{{ report.s3_key | public_url }}" alt="{{ report.title }}" class="report-thumb">
+          {% else %}
+            <p>No image available.</p>
+          {% endif %}
+        </div>
+        <div class="caption">
+          <p class="title">{{ report.title }}</p>
+          <p class="exif-date">
+            {% if report.exif_datetime %}
+               {{ report.exif_datetime.strftime('%Y-%m-%d %H:%M:%S') }}
+            {% else %}
+               {{ report.date_posted.strftime('%Y-%m-%d %H:%M:%S') }}
+            {% endif %}
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
+  <!-- Pagination Controls -->
+  <div class="pagination" style="text-align: center; margin-top: 1rem;">
+    {% if pagination.current_page > 1 %}
+      <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page - 1) }}" class="btn btn-primary">Previous</a>
+    {% endif %}
+    <span>Page {{ pagination.current_page }} of {{ pagination.total_pages }}</span>
+    {% if pagination.current_page < pagination.total_pages %}
+      <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page + 1) }}" class="btn btn-primary">Next</a>
+    {% endif %}
+  </div>
+  
+  <br>
+  <div style="text-align: center;">
+    <a href="{{ url_for('reports.daily_reports') }}" class="btn btn-secondary">Return to Daily Reports Preview</a>
+  </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="imageModal" class="modal">
+  <span class="close" id="modalClose">&times;</span>
+  <img class="modal-content" id="modalImg">
+</div>
+
+<!-- Inline JavaScript for Modal Functionality -->
+<script>
+  // Get the modal
+  const modal = document.getElementById("imageModal");
+  const modalImg = document.getElementById("modalImg");
+  const modalClose = document.getElementById("modalClose");
+
+  // Attach click event listener to all images with class 'report-thumb'
+  document.querySelectorAll(".report-thumb").forEach(img => {
+    img.addEventListener("click", function() {
+      // Set the source of the modal image to the clicked image's source
+      modalImg.src = this.src;
+      modal.style.display = "block";
+    });
+  });
+
+  // When the user clicks on <span> (x), close the modal
+  modalClose.onclick = function() {
+    modal.style.display = "none";
+  };
+
+  // Alternatively, clicking outside the image also closes the modal
+  modal.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
+</script>
+{% endblock %}

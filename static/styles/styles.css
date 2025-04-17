@@ -1,0 +1,367 @@
+/* ========================= */
+/* CSS Stylesheet | JSW SHV1 */
+/* ========================= */
+
+/* Define color variables */
+:root {
+  --primary-color: #1e366b;    /* Primary color */
+  --secondary-color: #FCA311;  /* Secondary color */
+  --accent-color: #e74c3c;     /* Red */
+  --background-color: #E5E5E5;  /* Light grey */
+  --text-color: #000000;       /* Dark color */
+  --header-background: #2980b9;/* Lighter blue */
+  --footer-background: #34495e;/* Dark grey-bluish */
+}
+
+/* Reset some basic properties */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%; /* Ensure full viewport height */
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  line-height: 1.6;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+/* Header and Navigation */
+header {
+  background: var(--header-background);
+  padding: 1rem 2rem;
+  color: #fff;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header nav .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+}
+
+.nav-links li {
+  margin-left: 1.5rem;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.nav-links a:hover {
+  color: var(--secondary-color);
+}
+
+/* Main content area styling */
+main {
+  flex: 1;
+  padding: 2rem;
+}
+
+/* Container for forms and subpages */
+.container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* New wider container for reports pages */
+.reports-container {
+  width: 95%;
+  max-width: 1400px;  /* Increased max width for large screens */
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* Override the default container styles for reports pages to use full screen width */
+.container.reports-container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 1rem;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+/* Form elements */
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  margin-top: 0.25rem;
+  font-size: 1rem;
+}
+
+/* Button styling */
+.btn {
+  display: inline-block;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background-color: var(--secondary-color);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+
+.btn-secondary:hover {
+  background-color: var(--primary-color);
+}
+
+/* Alerts / Flash messages */
+.alert {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
+.alert-success {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+
+.alert-danger {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.alert-info {
+  color: #0c5460;
+  background-color: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+/* Error text in forms */
+.text-danger {
+  color: var(--accent-color);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+/* Daily Reports Page Styles */
+
+/* Day group container */
+.day-group {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+/* For preview mode: display 5 images in a row */
+.image-grid.preview {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+/* Full day view image grid: display 5 images per row */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+/* Image Item styling */
+.image-item {
+  background: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+}
+
+/* New styling for image thumbnails to ensure square aspect ratio */
+.image-grid.preview .image-item,
+.image-grid .image-item {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* Creates a square container */
+}
+
+.image-grid.preview .image-item img,
+.image-grid .image-item img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Existing wrapper styling remains for other image contexts */
+.image-wrapper {
+  width: 100%;
+  padding-top: 100%; /* This sets the aspect ratio to 1:1 for square thumbnails */
+  position: relative;
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Caption styling (below the image) */
+.caption {
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.caption .title {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+
+.caption .exif-date {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+/* Modal styling */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  padding-top: 60px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+  margin: auto;
+  display: block;
+  max-width: 80%;
+}
+
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Footer styling */
+footer {
+  background: var(--footer-background);
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+}
+
+
+/* --------------------------------------------------- */
+/* Day Reports Specific Overrides (for day_reports.html) */
+/* --------------------------------------------------- */
+
+/* A larger container for the detailed day reports page */
+.container.day-reports-container {
+  max-width: 1200px; /* Increase the maximum width */
+  width: 95%;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Override the grid layout for day reports so images are larger */
+.day-reports-container .image-grid {
+  display: grid;
+  /* Using auto-fit with a minmax of 300px makes the grid responsive */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+/* Remove the forced square padding (from the generic rules) in this context */
+.day-reports-container .image-grid .image-item {
+  position: relative;
+  padding-top: 0; /* Remove extra padding to avoid blank space */
+}
+
+/* Adjust the image wrapper to use a 4:3 aspect ratio instead of square */
+.day-reports-container .image-wrapper {
+  width: 100%;
+  padding-top: 75%;  /* 75% gives a 4:3 aspect ratio */
+  position: relative;
+  overflow: hidden;
+}
+
+.day-reports-container .image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}

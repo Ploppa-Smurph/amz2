@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}My App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+</head>
+<body>
+<header>
+  {% include 'nav.html' %}
+</header>
+<main>
+   {% with messages = get_flashed_messages(with_categories=true) %}
+     {% if messages %}
+       {% for category, message in messages %}
+         <div class="alert alert-{{ category }}">
+           {{ message }}
+         </div>
+       {% endfor %}
+     {% endif %}
+   {% endwith %}
+   {% block content %}{% endblock %}
+</main>
+<footer>
+   <p>&copy; My App 2025</p>
+</footer>
+</body>
+</html>
