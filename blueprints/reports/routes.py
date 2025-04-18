@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
 from forms import ReportForm
 from models import Report, User
 from extensions import db
@@ -85,6 +85,22 @@ def day_reports(report_date):
         "total_count": total_count
     }
     return render_template("day_reports.html", day=target_date, reports=paginated_reports, pagination=pagination)
+
+@reports_bp.route('/api/reports', methods=['GET'])
+def api_get_reports():
+    # Query all reports from the database
+    reports = Report.query.all()
+    # Convert each report to a dictionary
+    reports_list = [{
+        'id': report.id,
+        'title': report.title,
+        'content': report.content,
+        'date_posted': report.date_posted.isoformat(),
+        # Assuming the "author" relationship is defined in your Report model:
+        'author': report.author.username if report.author else 'N/A'
+    } for report in reports]
+    # Return the list as JSON
+    return jsonify(reports_list)
 
 @reports_bp.route("/new", methods=["GET", "POST"])
 @login_required

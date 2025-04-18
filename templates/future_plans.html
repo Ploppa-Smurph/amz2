@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Future Plans & Alternative Frameworks{% endblock %}
+{% block content %}
+<div class="container future-plans">
+  <h1>Future Plans & Alternative Framework Conversion</h1>
+  <p>This document outlines how the current Flask‐based project could be converted into an alternative server‑side framework, such as Django or Ruby on Rails. The following sections explain the key differences and provide example code snippets.</p>
+  
+  <h2>Overview</h2>
+  <p>The current application is built using Flask with blueprints, Jinja2 templates, Flask‑SQLAlchemy models, and REST API endpoints. In evaluating alternative frameworks, we consider the following aspects:</p>
+  <ul>
+    <li>URL Routing and View Handling</li>
+    <li>Template Inheritance and Rendering</li>
+    <li>Database Modeling and ORM Usage</li>
+    <li>Built‑in Features vs. Extensible Components</li>
+  </ul>
+  
+  <h2>Django Conversion Example</h2>
+  <h3>URL Routing</h3>
+  <p><strong>Flask:</strong></p>
+  <pre><code class="language-python">
+@app.route('/reports/&lt;report_date&gt;')
+def day_reports(report_date):
+    # Process the report_date parameter and render the report page
+    ...
+  </code></pre>
+  <p><strong>Django:</strong> In Django, you’d define your URL pattern in <code>urls.py</code>:</p>
+  <pre><code class="language-python">
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('reports/&lt;str:report_date&gt;/', views.day_reports, name='day_reports'),
+]
+  </code></pre>
+  
+  <h3>Template Inheritance</h3>
+  <p>Both Flask and Django use very similar template inheritance structures. For example:</p>
+  <pre><code class="language-html">
+{% raw %}
+{% extends "base.html" %}
+{% block content %}
+  ... content here ...
+{% endblock %}
+{% endraw %}
+  </code></pre>
+  
+  <h3>Database Models</h3>
+  <p><strong>Flask‑SQLAlchemy example:</strong></p>
+  <pre><code class="language-python">
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(20), unique=True, nullable=False)
+    ...
+  </code></pre>
+  <p><strong>Django ORM example:</strong></p>
+  <pre><code class="language-python">
+from django.db import models
+
+class User(models.Model):
+    username = models.CharField(max_length=20, unique=True)
+    # additional fields go here
+  </code></pre>
+  
+  <h2>Ruby on Rails Conversion Example</h2>
+  <p>Ruby on Rails uses the Model‑View‑Controller (MVC) design pattern. A simple Rails model example:</p>
+  <pre><code class="language-ruby">
+class User < ApplicationRecord
+  validates :username, presence: true, uniqueness: true
+  # additional validations and associations
+end
+  </code></pre>
+
+  <ul>Future Functionality: 
+    <li>Deploy project to AWS cloud services</li>
+    <li>Make use of S3 bucket and CloudFront for caching of images</li>
+    <li>Intigrate functionality that allows for adding realtime station reports</li>
+    <li>Recode to clean, encapsulate, and secure all code snippets</li>
+    <li>Incorporate Redis / Valkey / or AWS utility as an In-Memory Key-Value Database</li>
+    <li>Code into a mobile application able to work on Apple and Android mobile devices</li>
+  </ul>
+  
+  <h2>Conclusion</h2>
+  <p>This overview demonstrates how the current Flask application can be restructured into alternative frameworks. Django offers a more “batteries‑included” environment, while Ruby on Rails emphasizes convention over configuration. Future work may involve creating a proof‑of‑concept version in one of these frameworks to further evaluate the benefits and integration strategies.</p>
+</div>
+{% endblock %}

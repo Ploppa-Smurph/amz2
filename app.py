@@ -57,9 +57,34 @@ def home():
 def about():
     return render_template('about.html')
 
+@app.route('/future-plans')
+def future_plans():
+    return render_template('future_plans.html')
+
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
+if not app.debug:
+    # Ensure the logs directory exists
+    if not os.path.exists('logs'):
+        os.mkdir('logs')
+    # Create a rotating file handler: logs file will be logs/myapp.log
+    file_handler = RotatingFileHandler('logs/myapp.log', maxBytes=10240, backupCount=10)
+    # Set the logging format
+    file_handler.setFormatter(logging.Formatter(
+        '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+    ))
+    file_handler.setLevel(logging.INFO)
+    app.logger.addHandler(file_handler)
+    
+    app.logger.setLevel(logging.INFO)
+    app.logger.info('MyApp startup')
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
 
 if __name__ == '__main__':
     with app.app_context():

@@ -2,6 +2,13 @@
 {% block title %}Daily Reports Overview{% endblock %}
 {% block content %}
 <div class="container reports-container">
+  <!-- Button to view reports as JSON -->
+  <div class="mb-3 text-right">
+    <a href="{{ url_for('reports.api_get_reports') }}" class="btn btn-info" target="_blank">
+      View Reports as JSON
+    </a>
+  </div>
+
   <h2>Daily Reports Overview</h2>
   {% if grouped_reports %}
     {% for day, reports in grouped_reports.items() %}
@@ -11,13 +18,16 @@
           <div class="image-grid preview">
             {% for report in reports[:5] %}
               <div class="image-item">
-                {% if report.image_data %}
-                  <img src="data:{{ report.image_mimetype }};base64,{{ report.image_data | b64str }}" alt="{{ report.title }}">
-                {% elif report.s3_key %}
-                  <img src="{{ report.s3_key | public_url }}" alt="{{ report.title }}">
-                {% else %}
-                  <p>No image available.</p>
-                {% endif %}
+                <div class="image-wrapper">
+                  {% if report.image_data %}
+                    <img src="data:{{ report.image_mimetype }};base64,{{ report.image_data | b64str }}"
+                         alt="{{ report.title }}">
+                  {% elif report.s3_key %}
+                    <img src="{{ report.s3_key | public_url }}" alt="{{ report.title }}">
+                  {% else %}
+                    <p>No image available.</p>
+                  {% endif %}
+                </div>
               </div>
             {% endfor %}
           </div>

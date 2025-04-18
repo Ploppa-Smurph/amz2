@@ -7,20 +7,31 @@
     <form method="POST" action="{{ url_for('auth.login') }}">
         {{ form.hidden_tag() }}
         <div class="form-group">
-            {{ form.username.label }}<br>
-            {{ form.username(class="form-control") }}
-            {% for error in form.username.errors %}
-                <small class="text-danger">{{ error }}</small>
-            {% endfor %}
+          {{ form.username.label }}
+          {{ form.username(class="form-control") }}
         </div>
         <div class="form-group">
-            {{ form.password.label }}<br>
-            {{ form.password(class="form-control") }}
-            {% for error in form.password.errors %}
-                <small class="text-danger">{{ error }}</small>
-            {% endfor %}
+          {{ form.password.label }}
+          {{ form.password(class="form-control") }}
         </div>
-        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
-    </form>
+        <div class="form-group">
+          {{ form.submit(class="btn btn-primary") }}
+        </div>
+      </form>
+      
+      {% if show_forgot %}
+        <!-- Forgot Password button that links to a password reset route -->
+        <a href="{{ url_for('auth.reset_password_request') }}" class="btn btn-danger">
+          Forgot Password?
+        </a>
+      {% endif %}
+      
+      {% if show_register %}
+        <!-- Registration button that links to the register route -->
+        <a href="{{ url_for('auth.register') }}" class="btn btn-secondary">
+          Register / Create New Account
+        </a>
+      {% endif %}
+      
 </div>
 {% endblock %}

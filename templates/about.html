@@ -3,85 +3,88 @@
 {% block title %}About | J S Walley's SHV1 Station Issue Log{% endblock %}
 
 {% block content %}
-<div class="container">
-  <!-- Letter of Concern -->
-  <h1>Letter of Concern</h1>
-  <p>
-    <strong>Subject:</strong> Concerns Regarding Work Rate Calculation and Performance Evaluation
-  </p>
-  <p>
-    Dear SHV1 ICQA and Facility Management Staff,
-  </p>
-  <p>
-    I am writing to formally express my concerns about the current methodology used to calculate work rates, as highlighted in my recent performance review and subsequent retraining. Approximately 2–3 weeks ago, I received feedback indicating an average rate of 300 items per shift, which has led to my placement on a two‑month probationary period. Since then, I have monitored my performance across shifts, consistently averaging between 450 and 500 items.
-  </p>
-  <p>
-    During my review of recent shifts, I observed significant discrepancies. For instance, on March 30 I was informed of an 800+ item rate during my shift, whereas on March 31, 2025 my rate was reported as only 266 items.
-  </p>
-  <p>
-    On Sunday, March 30th, I recall receiving totes during an 8‑hour shift that contained more than 100 items per tote. I further know that on the 30th I received one tote with over 400 items, another tote with over 500 items, and finally a tote that contained 973 items in a single tote.
-  </p>
-  <p>
-    While on the 31st, I documented multiple periods where no totes arrived at my station. I believe you will discover that 85% of the totes that arrived at my station in a 4‑hour period contained Andon items such as unscannable barcodes, broken sets, or damaged items. While most totes holding countable items contained fewer than 5, I did not receive any tote on the 31st that contained more than 30–40 items. Most of the totes previously contained Andon issues, and the additional totes had only small sums of items available to count. Some delay intervals spanned up to two minutes before any new totes arrived at the station. These variations suggest the current performance algorithm may not accurately reflect the actual work supplied and completed.
-  </p>
-  <p>
-    I have addressed these issues in discussions with members of ICQA management, including Edgar Hichez, Jorge Sosa, Mark Warner, Derrick Mullford, and Ally Muhamed. Although I was reassured that my record would be adjusted in two months, I remain concerned that the underlying data collection and reporting practices are flawed.
-  </p>
-  <p>
-    I believe that evaluating performance solely on a fixed average rate does not account for the inherent variability in tote volume and content, potentially leading to inaccurate assessments and undue concern. A more nuanced approach, perhaps one that considers the percentage of effective work completed, could more accurately reflect the actual workload.
-  </p>
-  <p>
-    I also want to inquire about the efficiency and productivity of a cycle counter receiving more than 80% of their workload simply confirming andons in totes. Perhaps additional tote delivery behaviors could be programmed to avoid this waste of time, energy, productivity, and efficiency—such as marking totes containing andons so that they are not sent to counters.
-  </p>
-  <p>
-    I have worked for Amazon now for over 6 months, and 4 months ago I made notes and presented to my management team how the SHV1 would benefit from additional system automations. It has been over 4 months, and I have not noticed any significant changes that have increased actual machine efficiency.
-  </p>
-  <p>
-    Thank you for your time and attention to this matter. I am eager to work together to review these findings and adjust the evaluation process accordingly for a fairer assessment of performance.
-  </p>
-  <p>
-    Included is a link to the photographs of my station on March 31:
-    <a href="https://drive.google.com/drive/folders/1knjuLSl4MUlnbbQVRw54An-599S8HJ32?usp=drive_link" target="_blank">View Photos</a>
-  </p>
-  <p>
-    Sincerely,<br>
-    Jeffrey Walley / dwalleje<br>
-    ICQA<br>
-    jswalley@rocketmail.com<br>
-    (225) 931-4152
-  </p>
-  <!-- Purpose and Project Description -->
-  <h1>About J S Walley's SHV1 Station Issue Log</h1>
-  <p>
-    <strong>J S Walley's SHV1 Station Issue Log</strong> is a professional application designed to streamline the documentation and analysis of process issues in corporate environments. Our goal is to provide a clear, accessible, and sophisticated way to capture and analyze issues over time.
-  </p>
-
-  <h2>Application Features</h2>
-  <ul>
-    <li>Detailed issue reports with accompanying images.</li>
-    <li>Daily views of issue logs to identify trends and patterns.</li>
-    <li>User-friendly navigation and filtering.</li>
-    <li>Clear, actionable insights for process improvement.</li>
-  </ul>
-
-  <h2>Updated Tools & Skills</h2>
-  <ul>
-    <li><strong>Flask:</strong> Python-based framework for flexible web development.</li>
-    <li><strong>Blueprints:</strong> Modular design for reusable application components.</li>
-    <li><strong>Jinja2:</strong> Dynamic templating for HTML generation.</li>
-    <li><strong>Bootstrap 5:</strong> Responsive design for modern UIs.</li>
-    <li><strong>Google API:</strong> Integration for managing Google Drive images.</li>
-    <li><strong>SQLAlchemy:</strong> For scalable and effective data management (optional).</li>
-    <li><strong>Custom CSS:</strong> Ensuring clean, consistent, and attractive design.</li>
-  </ul>
-
-  <h2>Current Application Functionality</h2>
-  <ul>
-    <li>Upload and retrieve issue reports alongside related images.</li>
-    <li>Analyze daily grouped logs for trend identification.</li>
-    <li>Enable dynamic filtering and enhanced usability.</li>
-    <li>View and manage images in modals upon thumbnail clicks.</li>
-    <li>Support submission of new issue reports through a secure form.</li>
-  </ul>
+<div class="container about-page">
+  
+  <!-- Business Letter Section -->
+  <section class="business-letter mb-5">
+    <h1 class="text-center mb-4">Letter of Concern</h1>
+    <div class="letter-content">
+      <p><strong>Subject:</strong> Concerns Regarding Work Rate Calculation and Performance Evaluation</p>
+      <p>Dear SHV1 ICQA and Facility Management Staff,</p>
+      <p>
+        I am writing to formally express my concerns about the current methodology used to calculate work rates, as highlighted in my recent performance review and subsequent retraining. Approximately 2–3 weeks ago, I received feedback indicating an average rate of 300 items per shift, which has led to my placement on a two‑month probationary period. Since then, I have monitored my performance across shifts, consistently averaging between 450 and 500 items.
+      </p>
+      <p>
+        During my review of recent shifts, I observed significant discrepancies. For instance, on March 30 I was informed of an 800+ item rate during my shift, whereas on March 31, 2025 my rate was reported as only 266 items.
+      </p>
+      <p>
+        On Sunday, March 30th, I recall receiving totes during an 8‑hour shift that contained more than 100 items per tote. I further know that on the 30th I received one tote with over 400 items, another tote with over 500 items, and finally a tote that contained 973 items in a single tote.
+      </p>
+      <p>
+        While on the 31st, I documented multiple periods where no totes arrived at my station. I believe you will discover that 85% of the totes that arrived at my station in a 4‑hour period contained Andon items such as unscannable barcodes, broken sets, or damaged items. While most totes holding countable items contained fewer than 5, I did not receive any tote on the 31st that contained more than 30–40 items. Most of the totes previously contained Andon issues, and the additional totes had only small sums of items available to count. Some delay intervals spanned up to two minutes before any new totes arrived at the station. These variations suggest the current performance algorithm may not accurately reflect the actual work supplied and completed.
+      </p>
+      <p>
+        I have addressed these issues in discussions with members of ICQA management, including Edgar Hichez, Jorge Sosa, Mark Warner, Derrick Mullford, and Ally Muhamed. Although I was reassured that my record would be adjusted in two months, I remain concerned that the underlying data collection and reporting practices are flawed.
+      </p>
+      <p>
+        I believe that evaluating performance solely on a fixed average rate does not account for the inherent variability in tote volume and content, potentially leading to inaccurate assessments and undue concern. A more nuanced approach, perhaps one that considers the percentage of effective work completed, could more accurately reflect the actual workload.
+      </p>
+      <p>
+        I also want to inquire about the efficiency and productivity of a cycle counter receiving more than 80% of their workload simply confirming andons in totes. Perhaps additional tote delivery behaviors could be programmed to avoid this waste of time, energy, productivity, and efficiency—such as marking totes containing andons so that they are not sent to counters.
+      </p>
+      <p>
+        I have worked for Amazon now for over 6 months, and 4 months ago I made notes and presented to my management team how the SHV1 would benefit from additional system automations. It has been over 4 months, and I have not noticed any significant changes that have increased actual machine efficiency.
+      </p>
+      <p>
+        Thank you for your time and attention to this matter. I am eager to work together to review these findings and adjust the evaluation process accordingly for a fairer assessment of performance.
+      </p>
+      
+      <p>
+        Sincerely,<br>
+        Jeffrey Walley / dwalleje<br>
+        ICQA<br>
+        jswalley@rocketmail.com<br>
+        (225) 931-4152
+      </p>
+    </div>
+  </section>
+  
+  <!-- Project Documentation Section -->
+  <section class="project-doc">
+    <h1 class="text-center mb-4">About J S Walley's SHV1 Station Issue Log</h1>
+    <p>
+      <strong>J S Walley's SHV1 Station Issue Log</strong> is a professional application designed to streamline the documentation and analysis of process issues in corporate environments. Our goal is to provide a clear, accessible, and sophisticated way to capture and analyze issues over time.
+    </p>
+    
+    <h2>Application Features & Tools</h2>
+    <ul>
+      <li><strong>Flask</strong>: Python-based framework used for building the web application.</li>
+      <li><strong>Blueprints</strong>: Modular routing structure for organizing application functionality.</li>
+      <li><strong>Jinja2 Templating</strong>: Dynamic HTML generation using template inheritance.</li>
+      <li><strong>Flask-WTF & CSRF Protection</strong>: For secure form handling and validation.</li>
+      <li><strong>Flask-Login</strong>: Manages user sessions and authentication.</li>
+      <li><strong>Flask-SQLAlchemy</strong>: ORM used for scalable and efficient data management.</li>
+      <li><strong>Flask-Migrate</strong>: Database migrations for evolving schema changes.</li>
+      <li><strong>Bootstrap</strong>: For responsive, modern UI design.</li>
+      <li><strong>REST API Endpoints</strong>: Expose application data (e.g., JSON-formatted reports).</li>
+      <li><strong>Custom CSS</strong>: Tailored visual styling to maintain a consistent brand identity.</li>
+      <li><strong>Text File Logging</strong>: Logging via RotatingFileHandler for monitoring application events.</li>
+      <li><strong>Custom Error Pages</strong>: (e.g., 404-page) for a consistent user experience.</li>
+      <li><strong>External Service Integrations</strong>: Amazon S3 (via <code>public_url</code>) and Mailgun for email notifications.</li>
+      <li><strong>Future Plans Documentation</strong>: Outlining potential conversions to alternative frameworks such as Django or Ruby on Rails.</li>
+    </ul>
+    
+    <h2>Current Application Functionality</h2>
+    <ul>
+      <li>Upload and retrieve detailed issue reports with associated images.</li>
+      <li>Daily grouping of reports for trend analysis.</li>
+      <li>Dynamic filtering and a user-friendly, responsive design.</li>
+      <li>Viewing images in modals upon thumbnail clicks.</li>
+      <li>Secure submission and validation of new issue reports.</li>
+      <li>Effective logging of application events for maintenance and debugging.</li>
+      <li>REST API endpoints for JSON data retrieval.</li>
+      <li>Custom error handling for a polished user experience.</li>
+    </ul>
+  </section>
 </div>
 {% endblock %}
