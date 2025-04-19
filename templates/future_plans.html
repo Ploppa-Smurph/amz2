@@ -1,12 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Future Plans & Alternative Frameworks{% endblock %}
+{% block title %}Future Plans & Alternative Frameworks | SHV1 STATION IRREGULARITY LOG{% endblock %}
 {% block content %}
 <div class="container future-plans">
   <h1>Future Plans & Alternative Framework Conversion</h1>
-  <p>This document outlines how the current Flask‐based project could be converted into an alternative server‑side framework, such as Django or Ruby on Rails. The following sections explain the key differences and provide example code snippets.</p>
+  <p>
+    This document outlines how the current Flask‐based project could be converted into an alternative server‑side framework, such as Django or Ruby on Rails. The following sections explain the key differences and provide example code snippets.
+  </p>
   
   <h2>Overview</h2>
-  <p>The current application is built using Flask with blueprints, Jinja2 templates, Flask‑SQLAlchemy models, and REST API endpoints. In evaluating alternative frameworks, we consider the following aspects:</p>
+  <p>
+    The current application is built using Flask with blueprints, Jinja2 templates, Flask‑SQLAlchemy models, and REST API endpoints. In evaluating alternative frameworks, we consider the following aspects:
+  </p>
   <ul>
     <li>URL Routing and View Handling</li>
     <li>Template Inheritance and Rendering</li>
@@ -18,23 +22,27 @@
   <h3>URL Routing</h3>
   <p><strong>Flask:</strong></p>
   <pre><code class="language-python">
-@app.route('/reports/&lt;report_date&gt;')
+@app.route('/reports/<report_date>')
 def day_reports(report_date):
     # Process the report_date parameter and render the report page
     ...
   </code></pre>
-  <p><strong>Django:</strong> In Django, you’d define your URL pattern in <code>urls.py</code>:</p>
+  <p>
+    <strong>Django:</strong> In Django, you might define your URL pattern in <code>urls.py</code> like so. Django’s URL dispatcher uses named path converters which enhance readability and allow for easier URL reversing. This design encourages a well‐organized project structure.
+  </p>
   <pre><code class="language-python">
 from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('reports/&lt;str:report_date&gt;/', views.day_reports, name='day_reports'),
+    path('reports/<str:report_date>/', views.day_reports, name='day_reports'),
 ]
   </code></pre>
   
   <h3>Template Inheritance</h3>
-  <p>Both Flask and Django use very similar template inheritance structures. For example:</p>
+  <p>
+    Both Flask and Django use similar template inheritance structures. In Django, the templating system is tightly integrated with its generic views and context processors, which promotes DRY – “Don't Repeat Yourself” – principles. For example:
+  </p>
   <pre><code class="language-html">
 {% raw %}
 {% extends "base.html" %}
@@ -52,7 +60,9 @@ class User(db.Model):
     username = db.Column(db.String(20), unique=True, nullable=False)
     ...
   </code></pre>
-  <p><strong>Django ORM example:</strong></p>
+  <p>
+    <strong>Django ORM example:</strong> Django’s ORM is built into the framework and offers an integrated admin interface, automatic form generation, and many query optimizations. This leads to a more cohesive development experience:
+  </p>
   <pre><code class="language-python">
 from django.db import models
 
@@ -62,24 +72,50 @@ class User(models.Model):
   </code></pre>
   
   <h2>Ruby on Rails Conversion Example</h2>
-  <p>Ruby on Rails uses the Model‑View‑Controller (MVC) design pattern. A simple Rails model example:</p>
+  <p>
+    Ruby on Rails uses the Model‐View‐Controller (MVC) design pattern and embraces convention over configuration. This approach can dramatically reduce development time, as Rails provides a lot of functionality out-of-the-box. For example:
+  </p>
   <pre><code class="language-ruby">
 class User < ApplicationRecord
   validates :username, presence: true, uniqueness: true
   # additional validations and associations
 end
   </code></pre>
+  <p>
+    Rails also emphasizes quick development cycles with features like scaffolding and an integrated asset pipeline.
+  </p>
 
-  <ul>Future Functionality: 
-    <li>Deploy project to AWS cloud services</li>
-    <li>Make use of S3 bucket and CloudFront for caching of images</li>
-    <li>Intigrate functionality that allows for adding realtime station reports</li>
-    <li>Recode to clean, encapsulate, and secure all code snippets</li>
-    <li>Incorporate Redis / Valkey / or AWS utility as an In-Memory Key-Value Database</li>
-    <li>Code into a mobile application able to work on Apple and Android mobile devices</li>
+  <h2>Future Functionality</h2>
+  <ul>
+    <li>
+      <strong>Deploy project to AWS cloud services:</strong>  
+      By leveraging cloud infrastructure, the application can automatically scale with demand, improve uptime, and integrate with managed services such as RDS and Elastic Beanstalk.
+    </li>
+    <li>
+      <strong>Use S3 bucket and CloudFront for caching of images:</strong>  
+      Utilizing S3 for storage and CloudFront as a CDN reduces load times by serving images from edge locations, thus enhancing performance and user experience.
+    </li>
+    <li>
+      <strong>Integrate realtime station reports:</strong>  
+      Adding realtime functionality (for example, via WebSockets or server-sent events) would enable immediate updates and insights, enhancing responsiveness for critical reporting.
+    </li>
+    <li>
+      <strong>Recode to clean, encapsulate, and secure code snippets:</strong>  
+      Refactoring the codebase promotes better maintainability, testability, and security. This helps in long-term scalability and reduces potential vulnerabilities.
+    </li>
+    <li>
+      <strong>Incorporate Redis/Valkey/AWS In-Memory Database:</strong>  
+      Using an in-memory key-value store for caching can significantly improve performance by reducing latency, particularly for frequently accessed data.
+    </li>
+    <li>
+      <strong>Develop a mobile application:</strong>  
+      Converting the project into a mobile-friendly application—compatible with both Apple and Android devices—can vastly expand accessibility and user engagement.
+    </li>
   </ul>
   
   <h2>Conclusion</h2>
-  <p>This overview demonstrates how the current Flask application can be restructured into alternative frameworks. Django offers a more “batteries‑included” environment, while Ruby on Rails emphasizes convention over configuration. Future work may involve creating a proof‑of‑concept version in one of these frameworks to further evaluate the benefits and integration strategies.</p>
+  <p>
+    This overview demonstrates how the current Flask application can be restructured into alternative frameworks. Django offers a more “batteries‑included” environment with robust built-in features, while Ruby on Rails emphasizes convention and rapid development. Future work may involve creating a proof‑of‑concept version in one of these frameworks to further evaluate the benefits and integration strategies. In addition, the future functionality points aim to improve scalability, performance, security, and cross-platform accessibility.
+  </p>
 </div>
 {% endblock %}

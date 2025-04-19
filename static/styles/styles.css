@@ -1,339 +1,199 @@
-/* ========================= */
-/* CSS Stylesheet | JSW SHV1 */
-/* ========================= */
-
-/* Define color variables */
+/* ============================
+   Global Settings & CSS Variables
+=============================== */
 :root {
-  --primary-color: #1e366b;    /* Primary color */
-  --secondary-color: #FCA311;  /* Secondary color */
-  --accent-color: #e74c3c;     /* Red */
-  --background-color: #E5E5E5;  /* Light grey */
-  --text-color: #000000;       /* Dark color */
-  --header-background: #2980b9;/* Lighter blue */
-  --footer-background: #34495e;/* Dark grey-bluish */
+  --primary-color: #0056b3;       /* dark blue */
+  --secondary-color: #ffa500;     /* orange */
+  --accent-color: #2ecc71;        /* green */
+  --header-background: #333;
 }
 
-/* Reset some basic properties */
-* {
+/* Reset box-sizing */
+*, *::before, *::after {
   box-sizing: border-box;
+}
+
+/* Basic reset */
+body, h1, h2, h3, h4, p, ul, li, figure, figcaption {
   margin: 0;
   padding: 0;
 }
 
-html {
-  height: 100%;
-}
-
+/* Body and global font settings */
 body {
-  font-family: Arial, sans-serif;
-  background-color: var(--background-color);
-  color: var(--text-color);
+  font-family: 'Open Sans', Arial, sans-serif;
   line-height: 1.6;
-  display: flex;
-  flex-direction: column;
-  min-height: 100%;
+  color: #333;
+  margin-top: 70px; /* Accommodate fixed header */
+  background: #fefefe;
 }
 
-/* Header and Navigation */
+/* ============================
+   Header & Navigation
+=============================== */
 header {
   background-color: var(--header-background);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1050; /* higher than content */
+  z-index: 1050;
 }
 
-/* nav.html may further use Bootstrap’s navbar classes */
 header nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 header nav .logo {
   font-size: 1.5rem;
   font-weight: bold;
   text-decoration: none;
   color: #fff;
 }
+
 .nav-links {
   list-style: none;
   display: flex;
+  margin: 0;
+  padding: 0;
 }
+
 .nav-links li {
   margin-left: 1.5rem;
 }
+
 .nav-links a {
   color: #fff;
   text-decoration: none;
   font-size: 1rem;
 }
+
 .nav-links a:hover {
   color: var(--secondary-color);
 }
 
-/* Main content area styling */
-main {
-  flex: 1;
-  padding: 2rem;
-  /* Offset top fixed header and bottom fixed footer */
-  margin-top: 80px;
-  margin-bottom: 80px;
-}
-
-/* Custom container for forms and subpages (renamed from .container to avoid conflicts) */
-.app-container {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-/* New wider container for reports pages (renamed) */
-.app-reports-container {
-  width: 95%;
-  max-width: 1400px;
-  margin: 2rem auto;
-  padding: 1rem;
-}
-
-/* (Optional) A modifier for full-width reports pages if desired */
-.app-reports-container.full {
-  max-width: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 1rem;
-  background: none;
-  border: none;
-  box-shadow: none;
-}
-
-/* Form elements */
-.form-group {
-  margin-bottom: 1rem;
-}
-.form-control {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  margin-top: 0.25rem;
-  font-size: 1rem;
-}
-
-/* Button styling */
-.btn {
-  display: inline-block;
-  font-size: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  transition: background-color 0.3s ease;
-}
-.btn-primary {
-  background-color: var(--primary-color);
-  color: #fff;
-}
-.btn-primary:hover {
-  background-color: var(--secondary-color);
-}
-.btn-secondary {
-  background-color: var(--secondary-color);
-  color: #fff;
-}
-.btn-secondary:hover {
-  background-color: var(--primary-color);
-}
-
-/* Alerts / Flash messages */
-.alert {
-  padding: 0.75rem 1rem;
-  margin-bottom: 1rem;
-  border: 1px solid transparent;
-  border-radius: 0.25rem;
-}
-.alert-success {
-  color: #155724;
-  background-color: #d4edda;
-  border-color: #c3e6cb;
-}
-.alert-danger {
-  color: #721c24;
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-}
-.alert-info {
-  color: #0c5460;
-  background-color: #d1ecf1;
-  border-color: #bee5eb;
-}
-
-/* Error text in forms */
-.text-danger {
-  color: var(--accent-color);
-  font-size: 0.9rem;
-  margin-top: 0.25rem;
-}
-
-/* Profile Page Styles */
-.profile-page {
-  margin-top: 2rem;
-}
-
-.profile-header {
-  color: var(--primary-color);
-  font-family: 'Arial', sans-serif;
-}
-
-.profile-header h1 {
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-}
-
-.profile-header p {
-  font-size: 1.2rem;
-}
-
-.profile-details {
-  max-width: 600px;
-  margin: 0 auto;
-  border-radius: 8px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-}
-
-.profile-details .card-body {
-  padding: 2rem;
-}
-
-.profile-details h2 {
-  font-size: 1.8rem;
-  margin-bottom: 1rem;
-  color: var(--secondary-color);
-  text-align: center; /* Centers the header */
-}
-
-.profile-details p {
-  font-size: 1.1rem;
-  margin-bottom: 0.75rem;
-  text-align: left; /* Ensures text details remain left-aligned */
-}
-
-.profile-details .text-center {
-  margin-top: 1.5rem; /* Adds spacing above the button */
-}
-
-.profile-details .center-btn {
-  display: block;
-  width: fit-content; 
-  margin: 1.5rem auto 0;
-}
-
-/* --------------------------------------------------------------------------
-   Container Styling for Both Pages
--------------------------------------------------------------------------- */
-.reports-container,
-.day-reports-container {
+/* ============================
+   Container & Footer
+=============================== */
+.container {
+  width: 75vw;
   max-width: 1200px;
-  width: 95%;
   margin: 2rem auto;
   padding: 1rem;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* --------------------------------------------------------------------------
-   Grid Layout for Both Pages
--------------------------------------------------------------------------- */
-.image-grid,
-.image-grid.preview {
-  display: grid;
-  /* Use a responsive grid that fits available space: */
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
-/* --------------------------------------------------------------------------
-   Common Image Item Styling
--------------------------------------------------------------------------- */
-.image-item {
-  background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-/* --------------------------------------------------------------------------
-   Image Wrapper (Applies to Both Pages)
-   Using the modern aspect-ratio property for a uniform container.
--------------------------------------------------------------------------- */
-.image-wrapper {
-  width: 100%;
-  aspect-ratio: 16 / 9;  /* 16:9 ratio: adjust here if you prefer another ratio */
-  overflow: hidden;
-  position: relative;
-}
-
-.image-wrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-/* --------------------------------------------------------------------------
-   Caption Overlay Styling (For Full View - day_reports.html)
--------------------------------------------------------------------------- */
-.day-reports-container .caption {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.6); /* semi-transparent black */
-  color: #fff;
-  padding: 0.3rem;
+footer {
   text-align: center;
-  box-sizing: border-box;
-  font-size: 0.8rem;
+  padding: 1rem;
+  margin-top: 2rem;
+  background-color: #f1f1f1;
 }
 
-.day-reports-container .caption .title {
+footer p {
   font-size: 0.9rem;
-  font-weight: bold;
-  margin-bottom: 0.2rem;
+  color: #777;
 }
 
-.day-reports-container .caption .exif-date {
-  font-size: 0.8rem;
-  color: #ccc;
-}
-
-/* --------------------------------------------------------------------------
-   Utility Styles
--------------------------------------------------------------------------- */
-.day-group {
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #ddd;
-}
-
-.pagination {
+/* ============================
+   Home Page Specific Styles
+=============================== */
+.hero {
+  background: var(--primary-color);
+  color: #fff;
+  padding: 5rem 0;
   text-align: center;
-  margin-top: 1rem;
 }
 
-/* --------------------------------------------------------------------------
+.hero h1 {
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.hero p.lead {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.hero a.btn {
+  font-size: 1.25rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.features {
+  background: #f9f9f9;
+  padding: 4rem 0;
+}
+
+.features .feature-box {
+  padding: 2rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #fff;
+  transition: box-shadow 0.3s ease;
+  margin-bottom: 2rem;
+}
+
+.features .feature-box:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.features h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+}
+
+.about-app {
+  padding: 4rem 0;
+}
+
+.about-app img.img-fluid {
+  max-height: 400px;
+  object-fit: cover;
+}
+
+.about-app h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+}
+
+.about-app p,
+.about-app ul {
+  font-size: 1.125rem;
+  margin-bottom: 1rem;
+}
+
+/* ============================
+   Code Blocks & Inline Code
+=============================== */
+pre {
+  background: #f4f4f4;
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+code {
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  background: #e9ecef;
+  padding: 0.1rem 0.3rem;
+  border-radius: 3px;
+}
+
+/* ============================
    Modal Styling (For Image Zoom/Preview)
--------------------------------------------------------------------------- */
+=============================== */
 .modal {
   display: none;
   position: fixed;
@@ -370,119 +230,67 @@ main {
   cursor: pointer;
 }
 
-/* About Page Custom Styles */
-.about-page .business-letter {
-  font-family: "Times New Roman", Times, serif;
-  max-width: 800px;
-  margin: 0 auto 2rem auto;
-  padding: 2rem;
-  background: #fff;
+/* ============================
+   Reports Page Specific Styles
+=============================== */
+.image-grid, .image-grid.preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.image-item {
   border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  line-height: 1.8;
-  text-align: left;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease;
 }
 
-.about-page .business-letter h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: var(--primary-color);
-  text-align: center;
+.image-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  position: relative;
 }
 
-.about-page .business-letter .letter-content p {
-  margin-bottom: 1rem;
-  text-indent: 2em;
+.image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
-.about-page .project-doc {
-  margin-top: 3rem;
-  padding: 1rem 2rem;
-  background: #fff;
-  border: 1px solid #eee;
-  border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  line-height: 1.6;
-}
-
-.about-page .project-doc h1,
-.about-page .project-doc h2 {
-  text-align: center;
-  color: var(--primary-color);
-}
-
-.about-page .project-doc ul {
-  margin-left: 2rem;
-  list-style-type: disc;
-  margin-bottom: 1rem;
-}
-
-.about-page .project-doc li {
-  margin-bottom: 0.5rem;
-}
-
-/* Ensure a bit of spacing between sections */
-.about-page section {
-  margin-bottom: 3rem;
-}
-
-/* Future Plans Page Custom Styles */
-.future-plans h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-  color: var(--primary-color);
-}
-
-.future-plans h2 {
-  font-size: 2rem;
-  margin-top: 2rem;
-  margin-bottom: 1rem;
-  border-bottom: 2px solid var(--primary-color);
-  padding-bottom: 0.3rem;
-}
-
-.future-plans h3 {
-  font-size: 1.75rem;
-  margin-top: 1.5rem;
-  color: var(--secondary-color);
-}
-
-.future-plans p {
-  font-size: 1.1rem;
-  margin-bottom: 1rem;
-}
-
-.future-plans ul {
-  margin-left: 2rem;
-  margin-bottom: 1rem;
-  list-style-type: disc;
-}
-
-.future-plans pre {
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
-  padding: 1rem;
-  border-radius: 0.25rem;
-  overflow-x: auto;
-  margin-bottom: 1rem;
-}
-
-.future-plans code {
-  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-  font-size: 0.95rem;
-  color: #333;
-}
-
-/* Sticky footer styling */
-footer {
-  background-color: var(--footer-background);
-  color: var(--secondary-color);
-  position: fixed;
+.caption {
+  position: absolute;
   bottom: 0;
   left: 0;
-  right: 0;
-  z-index: 1050;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 0.3rem;
   text-align: center;
-  padding: 1rem;
+  font-size: 0.8rem;
+}
+
+.caption .title {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+}
+
+.caption .exif-date {
+  font-size: 0.8rem;
+  color: #ccc;
+}
+
+.day-group {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.pagination {
+  text-align: center;
+  margin-top: 1rem;
 }

@@ -1,10 +1,64 @@
 {% extends 'base.html' %}
 
-{% block title %}Home | Amz SHV1 Station Work Issue Report App{% endblock %}
+{% block title %}Home | SHV1 STATION IRREGULARITY LOG{% endblock %}
 
 {% block content %}
-<section class="hero">
-  <h1>Welcome to the Amz SHV1 Station Work Issue Reports Application</h1>
-  <p>Streamline your documentation and analysis with ease and professionalism.</p>
+<section class="hero text-center py-5" style="background: var(--primary-color); color: #fff;">
+  <div class="container">
+    <h1 style="font-size: 3.5rem; font-weight: bold;">Welcome to SHV1 STATION IRREGULARITY LOG</h1>
+    <p class="lead" style="font-size: 1.5rem;">Streamline your work issue reporting with precision, efficiency, and style.</p>
+    <a href="{{ url_for('reports.daily_reports') }}" class="btn btn-lg btn-secondary mt-4">View Reports</a>
+  </div>
+</section>
+
+<section class="features py-5" style="background: #f9f9f9;">
+  <div class="container">
+    <div class="row text-center">
+      <div class="col-md-4 mb-4">
+        <div class="feature-box p-4" style="border: 1px solid var(--primary-color); border-radius: 8px;">
+          <h2 style="color: var(--primary-color);">Efficient Reporting</h2>
+          <p>Quickly document and analyze work issue reports with an intuitive interface.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="feature-box p-4" style="border: 1px solid var(--secondary-color); border-radius: 8px;">
+          <h2 style="color: var(--secondary-color);">Data-Driven Insights</h2>
+          <p>Visualize trends and fluctuations with dynamic data grouping and reporting features.</p>
+        </div>
+      </div>
+      <div class="col-md-4 mb-4">
+        <div class="feature-box p-4" style="border: 1px solid var(--accent-color); border-radius: 8px;">
+          <h2 style="color: var(--accent-color);">Scalable & Secure</h2>
+          <p>Built on modern frameworks with robust security, ensuring your data stays safe as you grow.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-app py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <img src="{{ url_for('static', filename='images/home-hero.jpg') }}" alt="Work Issue Reports" class="img-fluid rounded shadow">
+      </div>
+      <div class="col-md-6">
+        <h2 style="color: var(--primary-color);">About the Application</h2>
+        <p style="font-size: 1.125rem;">
+          The SHV1 STATION IRREGULARITY LOG is designed for high-performance work issue reporting. With our platform, you can:
+        </p>
+        <ul style="font-size: 1.125rem;">
+          <li>Document detailed work issues with supporting images.</li>
+          <li>Analyze daily trends and performance metrics.</li>
+          <li>Streamline communication across multiple departments.</li>
+          <li>Integrate seamlessly with existing enterprise tools.</li>
+        </ul>
+        <p style="font-size: 1.125rem;">
+          Our goal is to transform work issue management into a streamlined, data-driven process that improves accountability and productivity.
+        </p>
+        <a href="{{ url_for('about') }}" class="btn btn-primary btn-lg">Learn More</a>
+      </div>
+    </div>
+  </div>
 </section>
 {% endblock %}
