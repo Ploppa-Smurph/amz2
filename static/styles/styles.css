@@ -81,8 +81,7 @@ header nav .logo {
    Container & Footer
 =============================== */
 .container {
-  width: 75vw;
-  max-width: 1200px;
+  max-width: 85vw;
   margin: 2rem auto;
   padding: 1rem;
 }
@@ -191,6 +190,85 @@ code {
   border-radius: 3px;
 }
 
+/* --- Business Letter Styles --- */
+.business-letter {
+  font-family: 'Times New Roman', Georgia, serif;
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  line-height: 1.8;
+}
+
+.business-letter h1 {
+  font-family: 'Times New Roman', Georgia, serif;
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 0.5rem;
+  text-align: center;
+  color: var(--primary-color);
+}
+
+.business-letter .letter-content p {
+  margin-bottom: 1rem;
+  text-align: justify;
+}
+
+/* --- Project Documentation / About Section Styles --- */
+.project-doc {
+  font-family: 'Open Sans', Arial, sans-serif;
+  margin-top: 2rem;
+  padding: 2rem;
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  line-height: 1.6;
+}
+
+.project-doc h1,
+.project-doc h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+/* Optional: Underline h2 headings for separation */
+.project-doc h2 {
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.5rem;
+}
+
+.project-doc p {
+  margin-bottom: 1.25rem;
+  font-size: 1.125rem;
+  text-align: justify;
+}
+
+/* Organized list style for Features & Tools and Functionality */
+.project-doc ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.project-doc ul li {
+  margin-bottom: 0.75rem;
+  padding-left: 1.2rem;
+  position: relative;
+  font-size: 1.125rem;
+  color: #444;
+}
+
+.project-doc ul li:before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--secondary-color);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
 /* ============================
    Modal Styling (For Image Zoom/Preview)
 =============================== */
@@ -230,12 +308,73 @@ code {
   cursor: pointer;
 }
 
+/* Profile Page Styles */
+.profile-page {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.profile-header h1 {
+  font-size: 2.5rem;
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+}
+
+.profile-header p {
+  font-size: 1.2rem;
+}
+
+.profile-details.card {
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.profile-details .card-body {
+  background-color: #f9f9f9;
+  padding: 2rem;
+}
+
+.profile-details .card-title {
+  font-size: 1.75rem;
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+.profile-details p {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+  color: #444;
+}
+
+.center-btn {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-header h1 {
+    font-size: 2rem;
+  }
+  .profile-header p,
+  .profile-details p {
+    font-size: 1rem;
+  }
+}
+
 /* ============================
    Reports Page Specific Styles
 =============================== */
-.image-grid, .image-grid.preview {
+.image-grid,
+.image-grid.preview {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* increased minimum width */
   gap: 1rem;
 }
 
@@ -293,4 +432,35 @@ code {
 .pagination {
   text-align: center;
   margin-top: 1rem;
+}
+
+/* Station Notes Styles */
+.station-notes {
+  background-color: #fcfcfc;
+  border: 1px solid #ddd;
+  padding: 1.5rem;
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+}
+.station-notes h3 {
+  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-size: 1.75rem;
+}
+.station-notes ul {
+  list-style: none;
+  padding: 0;
+}
+.station-notes ul li {
+  padding-left: 1.2rem;
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+.station-notes ul li:before {
+  content: "\2022"; /* bullet */
+  color: var(--secondary-color);
+  font-size: 1.2rem;
+  position: absolute;
+  left: 0;
+  top: 0;
 }

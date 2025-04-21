@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}New Report | SHV1 STATION IRREGULARITY LOG{% endblock %}
+{% block content %}
+<div class="container new-report-page my-5">
+  <h1 class="text-center mb-4">Submit a New Station Issue Report</h1>
+  <form action="{{ url_for('reports.new_report') }}" method="POST" enctype="multipart/form-data">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+      {{ form.image.label(class="font-weight-bold") }}
+      {{ form.image(class="form-control-file") }}
+    </div>
+    <div class="form-group">
+      {{ form.notes.label(class="font-weight-bold") }}
+      {{ form.notes(class="form-control", placeholder="Enter any notes related to this report (optional)...") }}
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg d-block mx-auto">Submit Report</button>
+  </form>
+</div>
+{% endblock %}

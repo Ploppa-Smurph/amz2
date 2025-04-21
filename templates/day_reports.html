@@ -3,6 +3,22 @@
 {% block content %}
 <div class="container day-reports-container">
   <h2>Reports for {{ day.strftime('%Y-%m-%d') }}</h2>
+  
+  {# --- NEW: Station Notes Section --- #}
+  {% if station_notes and station_notes|length > 0 %}
+  <div class="station-notes my-3 p-3 border rounded">
+    <h3>Station Notes for {{ day.strftime('%Y-%m-%d') }}</h3>
+    <ul class="list-unstyled">
+      {% for note in station_notes %}
+        <li class="mb-2">
+          <i class="fas fa-sticky-note text-secondary"></i>
+          {{ note }}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  
   <div class="image-grid">
     {% for report in reports %}
       <div class="image-item">
@@ -31,23 +47,19 @@
   </div>
   
   <!-- Pagination Controls -->
-  <div class="pagination" style="text-align: center; margin-top: 1rem;">
+  <div class="pagination text-center mt-3">
     {% if pagination.current_page > 1 %}
-      <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page - 1) }}"
-         class="btn btn-primary">Previous</a>
+      <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page - 1) }}" class="btn btn-primary">Previous</a>
     {% endif %}
     <span>Page {{ pagination.current_page }} of {{ pagination.total_pages }}</span>
     {% if pagination.current_page < pagination.total_pages %}
-      <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page + 1) }}"
-         class="btn btn-primary">Next</a>
+      <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page + 1) }}" class="btn btn-primary">Next</a>
     {% endif %}
   </div>
   
   <br>
-  <div style="text-align: center;">
-    <a href="{{ url_for('reports.daily_reports') }}" class="btn btn-secondary">
-      Return to Daily Reports Preview
-    </a>
+  <div class="text-center">
+    <a href="{{ url_for('reports.daily_reports') }}" class="btn btn-secondary">Return to Daily Reports Preview</a>
   </div>
 </div>
 
