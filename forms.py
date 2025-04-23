@@ -5,14 +5,17 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from flask_wtf.file import FileField, FileAllowed
 from models import User
 
+# Registration form with filters to strip whitespace
 class RegistrationForm(FlaskForm):
     username = StringField(
         'Username',
-        validators=[DataRequired(), Length(min=2, max=20)]
+        validators=[DataRequired(), Length(min=2, max=20)],
+        filters=[lambda x: x.strip() if x else None]
     )
     email = StringField(
         'Email',
-        validators=[DataRequired(), Email()]
+        validators=[DataRequired(), Email()],
+        filters=[lambda x: x.strip() if x else None]
     )
     password = PasswordField(
         'Password',
@@ -34,10 +37,12 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError('That email is already in use.')
 
+# Login form with whitespace filtering
 class LoginForm(FlaskForm):
     username = StringField(
         'Username',
-        validators=[DataRequired(), Length(min=2, max=20)]
+        validators=[DataRequired(), Length(min=2, max=20)],
+        filters=[lambda x: x.strip() if x else None]
     )
     password = PasswordField(
         'Password',
@@ -48,7 +53,8 @@ class LoginForm(FlaskForm):
 class ResetPasswordRequestForm(FlaskForm):
     email = StringField(
         'Email',
-        validators=[DataRequired(), Email()]
+        validators=[DataRequired(), Email()],
+        filters=[lambda x: x.strip() if x else None]
     )
     submit = SubmitField('Request Password Reset')
 
@@ -63,7 +69,7 @@ class ResetPasswordForm(FlaskForm):
     )
     submit = SubmitField('Reset Password')
 
-# Updated ReportForm for submitting a new report with image and notes.
+# Report form for submitting a new report with optional image and notes.
 class ReportForm(FlaskForm):
     title = StringField(
         'Title',
@@ -82,14 +88,15 @@ class ReportForm(FlaskForm):
     )
     submit = SubmitField('Post Report')
 
+# Form for forcing a password change on the first admin/user login.
 class FirstTimePasswordChangeForm(FlaskForm):
     new_password = PasswordField(
-        "New Password", 
+        "New Password",
         validators=[DataRequired(), Length(min=6)],
         render_kw={"placeholder": "Enter new password"}
     )
     confirm_new_password = PasswordField(
-        "Confirm New Password", 
+        "Confirm New Password",
         validators=[DataRequired(), EqualTo('new_password')],
         render_kw={"placeholder": "Confirm new password"}
     )

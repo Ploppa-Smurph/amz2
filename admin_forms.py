@@ -36,7 +36,7 @@ class AdminCreateUserForm(FlaskForm):
     )
     role = SelectField(
         'Role',
-        choices=[("manager", "Manager"), ("admin", "Admin")],
+        choices=[("user", "User"), ("manager", "Manager"), ("admin", "Admin")],
         validators=[DataRequired()],
         render_kw={"class": "form-control"}
     )

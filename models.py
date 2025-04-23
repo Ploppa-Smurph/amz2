@@ -15,7 +15,6 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    # Updated new columns with server_default values:
     role = db.Column(db.String(20), nullable=False, default='user', server_default='user')
     must_change_password = db.Column(db.Boolean, default=False, server_default='0')
     reports = db.relationship('Report', backref='author', lazy=True)
@@ -45,6 +44,7 @@ class User(db.Model, UserMixin):
         except Exception:
             return None
         return User.query.get(user_id)
+
 
 # Association table for many-to-many relationship between Report and Tag
 report_tags = db.Table('report_tags',

@@ -25,6 +25,10 @@
       <a href="{{ url_for('auth.user_list') }}" class="btn btn-info">
         View User List
       </a>
+      <a href="{{ url_for('auth.user_list') }}" class="btn btn-warning">
+        Edit User Permissions
+      </a>
+    
     </div>
     
     <!-- Admin Reports Section -->
@@ -60,9 +64,54 @@
         </div>
       {% endfor %}
     </div>
-
+  
+  {% elif user.role == 'manager' %}
+    <!-- Manager Profile Details -->
+    <div class="profile-details card shadow-sm mb-4">
+      <div class="card-body text-center">
+        <h2>Profile Details</h2>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        {% set total_reports = 0 %}
+        {% for author, dates in reports_by_author.items() %}
+          {% set total_reports = total_reports + dates|length %}
+        {% endfor %}
+        <p><strong>Total Reports:</strong> {{ total_reports }}</p>
+        {% set total_authors = reports_by_author|length %}
+        <p><strong>Total Report Authors:</strong> {{ total_authors }}</p>
+        <a href="{{ url_for('reports.new_report') }}" class="btn btn-success btn-lg mt-3">
+          Create New Report
+        </a>
+      </div>
+    </div>
+    
+    <!-- Manager Reports Listing by Author -->
+    <div class="reports-list">
+      <h3 class="text-center">Reports by Author</h3>
+      {% if reports_by_author %}
+        <ul class="list-group">
+          {% for author, dates in reports_by_author.items() %}
+            <li class="list-group-item">
+              <strong>{{ author }}</strong>
+              <ul class="mt-2 list-unstyled">
+                {% for d in dates %}
+                  <li>
+                    <a href="{{ url_for('reports.day_reports', report_date=d.strftime('%Y-%m-%d'), author=author) }}">
+                      {{ d.strftime('%Y-%m-%d') }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p class="text-center">No reports found.</p>
+      {% endif %}
+    </div>
+  
   {% else %}
-    <!-- Non-admin Profile Details and Reports Summary -->
+    <!-- Regular User Profile Details -->
     <div class="profile-details card shadow-sm mb-4">
       <div class="card-body text-center">
         <h2>Profile Details</h2>
@@ -79,7 +128,8 @@
         </a>
       </div>
     </div>
-
+    
+    <!-- Regular User Reports Listing -->
     <div class="reports-list">
       <h3 class="text-center">Reports by Day</h3>
       {% if sorted_days %}
