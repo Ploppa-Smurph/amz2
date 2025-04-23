@@ -56,21 +56,23 @@ def main():
             if not exif_dt:
                 # Fall back to the current time if EXIF metadata is missing.
                 exif_dt = datetime.now(timezone.utc)
-            
-            # Create a report that stores both the S3 object key and the actual EXIF date.
+
+            # Create a report that stores the S3 key and the extracted EXIF datetime.
             report = Report(
                 title=s3_key,
-                content=f"Image taken on {exif_dt.isoformat()}",
+                notes=f"Image taken on {exif_dt.isoformat()}",  # Use notes instead of content
                 image_data=img_data,
                 image_mimetype=mimetype,
-                date_posted=exif_dt,     # Used as a fallback if needed.
-                s3_key=s3_key,           # New column: storing the S3 key.
-                exif_datetime=exif_dt,     # New column: storing the image's actual taken time.
+                s3_key=s3_key,
+                exif_datetime=exif_dt,
                 author=user
             )
+            # Optionally, you can set the report's posting time if needed:
+            report.date_posted = exif_dt
+
             db.session.add(report)
             print(f"Imported report for key: {s3_key}")
-        
+
         db.session.commit()
         print("Finished importing reports.")
 

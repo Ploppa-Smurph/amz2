@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Report Detail{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h1>{{ report.title }}</h1>
+  <p>
+    <strong>Author:</strong> {{ report.author.username }}<br>
+    <strong>Date:</strong> {{ (report.exif_datetime or report.date_posted).strftime('%Y-%m-%d %H:%M') }}
+  </p>
+  <div>
+    <p>{{ report.notes }}</p>
+  </div>
+  {% if report.image_data %}
+    <!-- If you have a mechanism to serve images, place it here -->
+    <p>[Image would be displayed here]</p>
+  {% endif %}
+  <a href="{{ url_for('reports.daily_reports') }}" class="btn btn-secondary">Back to Reports</a>
+</div>
+{% endblock %}

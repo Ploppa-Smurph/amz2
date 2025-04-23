@@ -1,9 +1,9 @@
-# app.py
 import os
 import logging
 import base64
+import uuid
 from logging.handlers import RotatingFileHandler
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from dotenv import load_dotenv
 from flask_migrate import Migrate
 
@@ -17,6 +17,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv(
     'sqlite:///' + os.path.join(app.instance_path, 'site.db')
 )
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Force session cookies to be non-permanent so they expire on browser close.
+app.config['SESSION_PERMANENT'] = False
+
+# Set a unique identifier for this server run.
+app.config['SERVER_RUN_ID'] = str(uuid.uuid4())
 
 # Initialize extensions
 from extensions import db, login_manager
@@ -43,7 +49,7 @@ def public_url_filter(key):
     return get_public_url(key)
 
 # Register blueprints
-from blueprints.reports.routes import reports_bp
+from blueprints.reports.routes import reports as reports_bp
 from blueprints.auth.routes import auth_bp
 app.register_blueprint(reports_bp, url_prefix='/reports')
 app.register_blueprint(auth_bp, url_prefix='/auth')
@@ -66,18 +72,14 @@ def contact():
     return render_template('contact.html')
 
 if not app.debug:
-    # Ensure the logs directory exists
     if not os.path.exists('logs'):
         os.mkdir('logs')
-    # Create a rotating file handler: logs file will be logs/myapp.log
     file_handler = RotatingFileHandler('logs/myapp.log', maxBytes=10240, backupCount=10)
-    # Set the logging format
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
     ))
     file_handler.setLevel(logging.INFO)
     app.logger.addHandler(file_handler)
-    
     app.logger.setLevel(logging.INFO)
     app.logger.info('MyApp startup')
 
@@ -85,8 +87,24 @@ if not app.debug:
 def page_not_found(error):
     return render_template('404.html'), 404
 
+# Invalidate old sessions when the server restarts.
+from flask_login import current_user, logout_user
+@app.before_request
+def invalidate_old_session():
+    if current_user.is_authenticated:
+        # Compare the session's stored run_id with the current run id.
+        if session.get('server_run_id') != app.config.get('SERVER_RUN_ID'):
+            logout_user()
+            session.clear()
 
 if __name__ == '__main__':
+    from models import User  # Ensure the User model is imported.
     with app.app_context():
-        # db.create_all()  # For development; in production rely on migrations
-        app.run(debug=True)
+        admin = User.query.filter_by(username="admin").first()
+        if not admin:
+            admin = User(username="admin", email="admin@example.com", role="admin")
+            admin.set_password("password")
+            db.session.add(admin)
+            db.session.commit()
+            print("Default admin user created: username='admin' password='password'")
+    app.run(debug=True)

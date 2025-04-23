@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}All User Daily Reports{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <h1 class="mb-4 text-center">All User Daily Reports</h1>
+  
+  {% if grouped_reports %}
+    {% for day, reports in grouped_reports.items() %}
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header">
+          <h3 class="mb-0">{{ day.strftime('%Y-%m-%d') }}</h3>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for report in reports %}
+            <li class="list-group-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{{ report.title }}</strong>
+                  <small class="text-muted ml-2">
+                    by {{ report.author.username }} on {{ (report.exif_datetime or report.date_posted).strftime('%Y-%m-%d %H:%M') }}
+                  </small>
+                </div>
+                <div>
+                  <a href="{{ url_for('reports.view_report', report_id=report.id) }}" class="btn btn-sm btn-primary">View Report</a>
+                </div>
+              </div>
+              {% if report.notes %}
+                <p class="mt-2 mb-0">{{ report.notes|truncate(100) }}</p>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-center">No reports found.</p>
+  {% endif %}
+</div>
+{% endblock %}

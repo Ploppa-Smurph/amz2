@@ -1,0 +1,19 @@
+<!-- admin/change_role.html -->
+{% extends "base.html" %}
+{% block content %}
+  <h2>Change Role for {{ user.username }}</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.role.label }}<br>
+      {{ form.role() }}
+    </div>
+    <div>
+      {{ form.current_password.label }}<br>
+      {{ form.current_password() }}
+    </div>
+    <div>
+      {{ form.submit() }}
+    </div>
+  </form>
+{% endblock %}
