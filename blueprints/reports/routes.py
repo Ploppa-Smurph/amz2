@@ -2,7 +2,7 @@
 
 from datetime import datetime
 from flask import (
-    Blueprint, render_template, request,
+    Blueprint, render_template, Response, request,
     redirect, url_for, flash, jsonify
 )
 from sqlalchemy import func
@@ -10,6 +10,7 @@ from flask_login import login_required, current_user
 from extensions import db
 from models import User, Report, Tag, Note
 from forms import ReportForm, NoteForm
+import io, csv
 
 reports = Blueprint("reports", __name__)
 
@@ -142,6 +143,48 @@ def api_get_reports():
         "author": report.author.username if report.author else "N/A"
     } for report in reports_list]
     return jsonify(response)
+
+@reports.route('/export_reports', methods=['GET'])
+@login_required
+def export_reports():
+    """
+    Export reports as CSV.
+    This route is only available to managers and admins.
+    Modify the query as needed to export reports visible to the current user.
+    """
+    # Only allow admins and managers to export
+    if current_user.role not in ['admin', 'manager']:
+        abort(403)
+
+    # Example: query all reports (adjust as necessary)
+    reports_data = Report.query.all()
+
+    # Create an in-memory output file for csv.writer
+    output = io.StringIO()
+    writer = csv.writer(output)
+
+    # Write CSV header row (customize column names as needed)
+    writer.writerow(['ID', 'Title', 'Author', 'Date Posted', 'EXIF Date/Time'])
+
+    # Write data rows
+    for report in reports_data:
+        # Format dates; if no EXIF datetime exists, leave it blank.
+        date_posted = report.date_posted.strftime('%Y-%m-%d %H:%M:%S') if report.date_posted else ''
+        exif_datetime = report.exif_datetime.strftime('%Y-%m-%d %H:%M:%S') if report.exif_datetime else ''
+        writer.writerow([
+            report.id,
+            report.title,
+            report.author.username,
+            date_posted,
+            exif_datetime
+        ])
+
+    output.seek(0)
+    
+    # Return the CSV as a downloadable file attachment
+    return Response(output.getvalue(), 
+                    mimetype='text/csv',
+                    headers={'Content-Disposition': 'attachment; filename=reports.csv'})
 
 # -----------------------------------------------------------------------------
 # Report Creation & Detail Routes

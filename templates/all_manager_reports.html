@@ -6,14 +6,23 @@
 <div class="container py-4">
   <h1 class="mb-4 text-center">All Manager Daily Reports</h1>
   
+  {# Group reports by the "date_posted" attribute #}
+  {% set grouped_reports = reports|groupby('date_posted') %}
+  
   {% if grouped_reports %}
-    {% for day, reports in grouped_reports.items() %}
+    {% for group in grouped_reports %}
       <div class="card mb-4 shadow-sm">
         <div class="card-header">
-          <h3 class="mb-0">{{ day.strftime('%Y-%m-%d') }}</h3>
+          <h3 class="mb-0">
+            {% if group.grouper is callable %}
+              {{ group.grouper().date().strftime('%Y-%m-%d') }}
+            {% else %}
+              {{ group.grouper.date().strftime('%Y-%m-%d') }}
+            {% endif %}
+          </h3>
         </div>
         <ul class="list-group list-group-flush">
-          {% for report in reports %}
+          {% for report in group.list %}
             <li class="list-group-item">
               <div class="d-flex justify-content-between align-items-center">
                 <div>
@@ -23,7 +32,9 @@
                   </small>
                 </div>
                 <div>
-                  <a href="{{ url_for('reports.view_report', report_id=report.id) }}" class="btn btn-sm btn-primary">View Report</a>
+                  <a href="{{ url_for('reports.view_report', report_id=report.id) }}" class="btn btn-sm btn-primary">
+                    View Report
+                  </a>
                 </div>
               </div>
               {% if report.notes %}
@@ -37,5 +48,13 @@
   {% else %}
     <p class="text-center">No manager reports found.</p>
   {% endif %}
+  
+  <!-- Navigation Section -->
+  <div class="text-center mt-4">
+    <a href="javascript:history.back()" class="btn btn-secondary mx-2">Return to Previous Page</a>
+    <a href="{{ url_for('reports.daily_reports') }}" class="btn btn-secondary mx-2">Return to Daily Reports</a>
+    <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary mx-2">Return to Profile</a>
+    <a href="{{ url_for('reports.export_reports') }}" class="btn btn-info mx-2">Export Manager Reports as CSV</a>
+  </div>
 </div>
 {% endblock %}

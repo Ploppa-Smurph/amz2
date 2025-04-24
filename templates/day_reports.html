@@ -51,6 +51,16 @@
     {% endfor %}
   </div>
 
+  <!-- Export Button: Display only for admin and manager roles -->
+  {% if current_user.role in ['admin', 'manager'] %}
+  <div class="text-center mt-3">
+    <a href="{{ url_for('reports.export_reports', report_date=day.strftime('%Y-%m-%d')) }}"
+       class="btn btn-info">
+      Export Reports as CSV
+    </a>
+  </div>
+  {% endif %}
+
   <!-- Pagination Controls -->
   <div class="pagination text-center mt-3">
     {% if pagination.current_page > 1 %}
@@ -58,10 +68,10 @@
       class="btn btn-primary">Previous</a>
     {% endif %}
     <span>Page {{ pagination.current_page }} of {{ pagination.total_pages }}</span>
-    {% if pagination.current_page < pagination.total_pages %} <a
-      href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page + 1) }}"
+    {% if pagination.current_page < pagination.total_pages %}
+    <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page + 1) }}"
       class="btn btn-primary">Next</a>
-      {% endif %}
+    {% endif %}
   </div>
 
   <br>

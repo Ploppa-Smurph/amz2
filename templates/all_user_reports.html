@@ -1,29 +1,34 @@
 {% extends "base.html" %}
 
-{% block title %}All User Daily Reports{% endblock %}
+{% block title %}All User Reports{% endblock %}
 
 {% block content %}
 <div class="container py-4">
-  <h1 class="mb-4 text-center">All User Daily Reports</h1>
+  <h1 class="mb-4 text-center">All User Reports</h1>
+  
+  {# Group the reports by the username of the author #}
+  {% set grouped_reports = reports|groupby('author.username') %}
   
   {% if grouped_reports %}
-    {% for day, reports in grouped_reports.items() %}
+    {% for group in grouped_reports %}
       <div class="card mb-4 shadow-sm">
         <div class="card-header">
-          <h3 class="mb-0">{{ day.strftime('%Y-%m-%d') }}</h3>
+          <h3 class="mb-0">{{ group.grouper }}</h3>
         </div>
         <ul class="list-group list-group-flush">
-          {% for report in reports %}
+          {% for report in group.list %}
             <li class="list-group-item">
               <div class="d-flex justify-content-between align-items-center">
                 <div>
                   <strong>{{ report.title }}</strong>
                   <small class="text-muted ml-2">
-                    by {{ report.author.username }} on {{ (report.exif_datetime or report.date_posted).strftime('%Y-%m-%d %H:%M') }}
+                    on {{ (report.exif_datetime or report.date_posted).strftime('%Y-%m-%d %H:%M') }}
                   </small>
                 </div>
                 <div>
-                  <a href="{{ url_for('reports.view_report', report_id=report.id) }}" class="btn btn-sm btn-primary">View Report</a>
+                  <a href="{{ url_for('reports.view_report', report_id=report.id) }}" class="btn btn-sm btn-primary">
+                    View Report
+                  </a>
                 </div>
               </div>
               {% if report.notes %}
@@ -37,5 +42,19 @@
   {% else %}
     <p class="text-center">No reports found.</p>
   {% endif %}
+  
+  <!-- Navigation Section -->
+  <div class="text-center mt-4">
+    <a href="javascript:history.back()" class="btn btn-secondary mx-2">
+      Return to Previous Page
+    </a>
+    <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary mx-2">
+      Return to Profile
+    </a>
+    <a href="{{ url_for('reports.export_reports') }}" class="btn btn-info mx-2">
+      Export User Reports as CSV
+    </a>
+  </div>
+  
 </div>
 {% endblock %}
