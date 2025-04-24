@@ -2,7 +2,35 @@
 {% block title %}Future Plans & Alternative Frameworks | SHV1 STATION IRREGULARITY LOG{% endblock %}
 {% block content %}
 <div class="container future-plans">
-  <h1>Future Plans & Alternative Framework Conversion</h1>
+  
+  <h1>Future Functionality</h1>
+  <ul>
+    <li>
+      <strong>Deploy project to AWS cloud services:</strong>  
+      By leveraging cloud infrastructure, the application can automatically scale with demand, improve uptime, and integrate with managed services such as RDS and Elastic Beanstalk.
+    </li>
+    <li>
+      <strong>Use S3 bucket and CloudFront for caching of images:</strong>  
+      Utilizing S3 for storage and CloudFront as a CDN reduces load times by serving images from edge locations, thus enhancing performance and user experience.
+    </li>
+    <li>
+      <strong>Integrate realtime station reports:</strong>  
+      Adding realtime functionality (for example, via WebSockets or server-sent events) would enable immediate updates and insights, enhancing responsiveness for critical reporting.
+    </li>
+    <li>
+      <strong>Recode to clean, encapsulate, and secure code snippets:</strong>  
+      Refactoring the codebase promotes better maintainability, testability, and security. This helps in long-term scalability and reduces potential vulnerabilities.
+    </li>
+    <li>
+      <strong>Incorporate Redis/Valkey/AWS In-Memory Database:</strong>  
+      Using an in-memory key-value store for caching can significantly improve performance by reducing latency, particularly for frequently accessed data.
+    </li>
+    <li>
+      <strong>Develop a mobile application:</strong>  
+      Converting the project into a mobile-friendly application—compatible with both Apple and Android devices—can vastly expand accessibility and user engagement.
+    </li>
+  </ul>
+  <h2>Alternative Framework Conversion & Cloud Conversion</h2>
   <p>
     This document outlines how the current Flask‐based project could be converted into an alternative server‑side framework, such as Django or Ruby on Rails. The following sections explain the key differences and provide example code snippets.
   </p>
@@ -84,34 +112,6 @@ end
   <p>
     Rails also emphasizes quick development cycles with features like scaffolding and an integrated asset pipeline.
   </p>
-
-  <h2>Future Functionality</h2>
-  <ul>
-    <li>
-      <strong>Deploy project to AWS cloud services:</strong>  
-      By leveraging cloud infrastructure, the application can automatically scale with demand, improve uptime, and integrate with managed services such as RDS and Elastic Beanstalk.
-    </li>
-    <li>
-      <strong>Use S3 bucket and CloudFront for caching of images:</strong>  
-      Utilizing S3 for storage and CloudFront as a CDN reduces load times by serving images from edge locations, thus enhancing performance and user experience.
-    </li>
-    <li>
-      <strong>Integrate realtime station reports:</strong>  
-      Adding realtime functionality (for example, via WebSockets or server-sent events) would enable immediate updates and insights, enhancing responsiveness for critical reporting.
-    </li>
-    <li>
-      <strong>Recode to clean, encapsulate, and secure code snippets:</strong>  
-      Refactoring the codebase promotes better maintainability, testability, and security. This helps in long-term scalability and reduces potential vulnerabilities.
-    </li>
-    <li>
-      <strong>Incorporate Redis/Valkey/AWS In-Memory Database:</strong>  
-      Using an in-memory key-value store for caching can significantly improve performance by reducing latency, particularly for frequently accessed data.
-    </li>
-    <li>
-      <strong>Develop a mobile application:</strong>  
-      Converting the project into a mobile-friendly application—compatible with both Apple and Android devices—can vastly expand accessibility and user engagement.
-    </li>
-  </ul>
   
   <h2>Conclusion</h2>
   <p>

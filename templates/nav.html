@@ -2,18 +2,21 @@
 <nav>
   <a href="{{ url_for('home') }}" class="logo">SHV1 STATION IRREGULARITY LOG</a>
   <ul class="nav-links">
-
-    <li><a href="{{ url_for('about') }}">About</a></li>
-    <li><a href="{{ url_for('reports.daily_reports') }}">Reports</a></li>
-    {% if current_user.is_authenticated %}
-    <li><a href="{{ url_for('auth.profile') }}">Profile</a></li>
-
-    <li><a href="{{ url_for('contact') }}">Contact</a></li>
-    <li><a href="{{ url_for('future_plans') }}">Future Plans</a></li>
-    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+    {% if not current_user.is_authenticated %}
+      <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+      <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+      <li><a href="{{ url_for('reports.daily_reports') }}">Daily Reports</a></li>
+      <li><a href="{{ url_for('future_plans') }}">Future Plans</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
     {% else %}
-    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
-    <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+      <li><a href="{{ url_for('auth.profile') }}">Profile</a></li>
+      <li><a href="{{ url_for('reports.daily_reports') }}">Daily Reports</a></li>
+      {% if latest_report is defined %}
+        <li><a href="{{ url_for('reports.report_detail', report_id=latest_report.id) }}">Report Details</a></li>
+      {% endif %}
+      <li><a href="{{ url_for('future_plans') }}">Future Plans</a></li>
+      <li><a href="{{ url_for('about') }}">About</a></li>
+      <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
     {% endif %}
   </ul>
 </nav>

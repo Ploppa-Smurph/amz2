@@ -8,11 +8,10 @@ from flask import (
 from sqlalchemy import func
 from flask_login import login_required, current_user
 from extensions import db
-from models import User, Report, Tag
-from forms import ReportForm
+from models import User, Report, Tag, Note
+from forms import ReportForm, NoteForm
 
 reports = Blueprint("reports", __name__)
-
 
 # -----------------------------------------------------------------------------
 # Helper Functions
@@ -27,7 +26,6 @@ def safe_parse_date(date_str, fmt='%Y-%m-%d'):
     except (ValueError, TypeError):
         return None
 
-
 def group_reports_by_day(reports_list):
     """
     Groups a list of Report objects by the date component of their
@@ -41,7 +39,6 @@ def group_reports_by_day(reports_list):
         grouped.setdefault(day, []).append(report)
     # Sort by day (most recent first)
     return dict(sorted(grouped.items(), key=lambda item: item[0], reverse=True))
-
 
 def paginate(items, page, page_size):
     """
@@ -61,7 +58,6 @@ def paginate(items, page, page_size):
     }
     return paginated, pagination
 
-
 # -----------------------------------------------------------------------------
 # Report Listing Routes
 # -----------------------------------------------------------------------------
@@ -76,6 +72,7 @@ def daily_reports():
     start_date_str = request.args.get('start_date')
     end_date_str = request.args.get('end_date')
     author = request.args.get('author')
+    # Use COALESCE: if exif_datetime is not null, then exponentiate that; if null, use date_posted.
     date_field = func.coalesce(Report.exif_datetime, Report.date_posted)
     query = Report.query
 
@@ -105,7 +102,6 @@ def daily_reports():
     sorted_grouped = group_reports_by_day(reports_list)
     return render_template("daily_reports.html", grouped_reports=sorted_grouped)
 
-
 @reports.route("/daily_reports/day/<report_date>")
 @login_required
 def day_reports(report_date):
@@ -132,7 +128,6 @@ def day_reports(report_date):
     return render_template("day_reports.html", day=target_date,
                            reports=paginated_reports, pagination=pagination)
 
-
 @reports.route("/api/reports", methods=["GET"])
 def api_get_reports():
     """
@@ -148,7 +143,6 @@ def api_get_reports():
     } for report in reports_list]
     return jsonify(response)
 
-
 # -----------------------------------------------------------------------------
 # Report Creation & Detail Routes
 # -----------------------------------------------------------------------------
@@ -157,7 +151,8 @@ def api_get_reports():
 def new_report():
     """
     Allows a logged-in user to create a new report.
-    Supports image uploads and optional notes.
+    If a user enters text in the 'notes' field, a note is automatically
+    created and attached to the report.
     """
     form = ReportForm()
     if form.validate_on_submit():
@@ -167,29 +162,106 @@ def new_report():
             image_data = form.image.data.read()
             image_mimetype = form.image.data.mimetype
 
+        # Create the report; note that we store the submitted notes in Report.notes
         new_report_obj = Report(
             title=form.title.data,
-            notes=form.notes.data,
+            notes=form.notes.data,   # value remains stored if you wish to use elsewhere
             image_data=image_data,
             image_mimetype=image_mimetype,
             author=current_user
         )
         db.session.add(new_report_obj)
-        db.session.commit()
-        flash("Your report has been posted!", "success")
+        
+        # If the report's form includes notes text, also create a threaded note.
+        if form.notes.data and form.notes.data.strip():
+            from models import Note  # Ensure Note is imported
+            initial_note = Note(
+                content=form.notes.data,
+                report=new_report_obj,
+                user_id=current_user.id
+            )
+            db.session.add(initial_note)
+        
+        try:
+            db.session.commit()
+            flash("Your report has been posted!", "success")
+        except Exception as e:
+            db.session.rollback()
+            flash("There was an error posting your report: " + str(e), "danger")
+            return redirect(url_for("reports.new_report"))
         return redirect(url_for("reports.daily_reports"))
+    else:
+        if request.method == "POST":
+            flash("Form did not validate: " + str(form.errors), "danger")
     return render_template("new_report.html", title="New Report", form=form)
 
-
-@reports.route('/report/<int:report_id>')
+@reports.route('/report/<int:report_id>', methods=["GET", "POST"])
 @login_required
 def view_report(report_id):
+    report = Report.query.get_or_404(report_id)
+    form = NoteForm()
+    if form.validate_on_submit():
+        parent_id = request.form.get('parent_id')
+        new_note = Note(
+            content=form.content.data,
+            report=report,
+            user_id=current_user.id,
+            parent_id=int(parent_id) if parent_id and parent_id.isdigit() else None
+        )
+        db.session.add(new_note)
+        try:
+            db.session.commit()
+            flash("Your note was posted.", "success")
+        except Exception as e:
+            db.session.rollback()
+            flash("Error posting your note: " + str(e), "danger")
+        return redirect(url_for('reports.view_report', report_id=report.id))
+    return render_template("report_detail.html", report=report, form=form)
+
+@reports.route('/report/<int:report_id>/notes', methods=['GET', 'POST'])
+@login_required
+def report_notes(report_id):
     """
-    Displays details for a single report.
+    Displays all notes attached to a given report and allows posting a note
+    or reply.
+    
+    Permission rules:
+      - Users (role "user") can comment on a report if they are the author
+         or if the report was submitted by a non-admin (e.g. their manager or peer).
+      - Managers can view and comment on all user and manager reports.
+      - Admins can view and comment on all reports.
     """
     report = Report.query.get_or_404(report_id)
-    return render_template("report_detail.html", report=report)
-
+    
+    # Permission check:
+    if current_user.role == 'user':
+        # Allow if the report is authored by the current user or if
+        # the report is not authored by an admin (i.e. it should be their manager or a peer's).
+        if report.author != current_user and report.author.role == 'admin':
+            flash("You do not have permission to view or post notes on an admin report.", "danger")
+            return redirect(url_for('reports.daily_reports'))
+    
+    form = NoteForm()
+    if form.validate_on_submit():
+        parent_id = request.form.get('parent_id')
+        new_note = Note(
+            content=form.content.data,
+            report=report,
+            user_id=current_user.id,
+            parent_id=int(parent_id) if parent_id and parent_id.isdigit() else None
+        )
+        db.session.add(new_note)
+        try:
+            db.session.commit()
+            flash("Your note was posted successfully.", "success")
+        except Exception as e:
+            db.session.rollback()
+            flash("Error posting note: " + str(e), "danger")
+        return redirect(url_for('reports.report_notes', report_id=report.id))
+    
+    # Retrieve top-level notes (without a parent)
+    top_notes = Note.query.filter_by(report_id=report.id, parent_id=None).order_by(Note.timestamp.asc()).all()
+    return render_template('report_notes.html', report=report, form=form, notes=top_notes)
 
 # -----------------------------------------------------------------------------
 # Admin Filtered Report Routes
@@ -205,7 +277,6 @@ def all_manager_reports():
         return redirect(url_for('home'))
     manager_reports = Report.query.join(User).filter(User.role == 'manager').all()
     return render_template('all_manager_reports.html', reports=manager_reports)
-
 
 @reports.route('/all_user_reports')
 @login_required

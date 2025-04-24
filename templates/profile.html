@@ -28,42 +28,47 @@
       <a href="{{ url_for('auth.user_list') }}" class="btn btn-warning">
         Edit User Permissions
       </a>
-    
     </div>
     
-    <!-- Admin Reports Section -->
-    <div class="admin-reports">
-      <h3 class="text-center">Reports by Role</h3>
-      {% for role, authors in admin_grouped_reports.items() %}
-        <div class="card mb-4">
-          <div class="card-header">
-            <h4>{{ role|capitalize }} Reports</h4>
-          </div>
-          <div class="card-body">
-            {% if authors %}
-              <ul class="list-group">
-                {% for author, dates in authors.items() %}
-                  <li class="list-group-item">
-                    <strong>{{ author }}</strong>
-                    <ul class="mt-2 list-unstyled">
-                      {% for d in dates %}
-                        <li>
-                          <a href="{{ url_for('reports.day_reports', report_date=d.strftime('%Y-%m-%d'), author=author) }}">
-                            {{ d.strftime('%Y-%m-%d') }}
-                          </a>
-                        </li>
-                      {% endfor %}
-                    </ul>
-                  </li>
-                {% endfor %}
-              </ul>
-            {% else %}
-              <p>No reports found for role {{ role }}.</p>
-            {% endif %}
-          </div>
-        </div>
-      {% endfor %}
+<!-- Admin Reports Section -->
+<div class="admin-reports">
+  <h3 class="text-center">Reports by Role</h3>
+  <div class="text-center mb-3">
+    <a href="{{ url_for('reports.new_report') }}" class="btn btn-success">Create New Report</a>
+  </div>
+  {% for role, authors in admin_grouped_reports.items() %}
+    <div class="card mb-4">
+      <div class="card-header">
+        <h4>{{ role|capitalize }} Reports</h4>
+      </div>
+      <div class="card-body">
+        {% if authors %}
+          <ul class="list-group">
+            {% for author, dates in authors.items() %}
+              <li class="list-group-item">
+                <strong>{{ author }}</strong>
+                <ul class="mt-2 list-unstyled">
+                  {% for d in dates %}
+                    <li class="d-flex justify-content-between align-items-center">
+                      <a href="{{ url_for('reports.day_reports', report_date=d.strftime('%Y-%m-%d'), author=author) }}">
+                        {{ d.strftime('%Y-%m-%d') }}
+                      </a>
+                      <a href="{{ url_for('reports.day_reports', report_date=d.strftime('%Y-%m-%d'), author=author, notes='true') }}" class="btn btn-sm btn-info">
+                        View/Add Notes
+                      </a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No reports found for role {{ role }}.</p>
+        {% endif %}
+      </div>
     </div>
+  {% endfor %}
+</div>
   
   {% elif user.role == 'manager' %}
     <!-- Manager Profile Details -->
@@ -95,9 +100,12 @@
               <strong>{{ author }}</strong>
               <ul class="mt-2 list-unstyled">
                 {% for d in dates %}
-                  <li>
+                  <li class="d-flex justify-content-between align-items-center">
                     <a href="{{ url_for('reports.day_reports', report_date=d.strftime('%Y-%m-%d'), author=author) }}">
                       {{ d.strftime('%Y-%m-%d') }}
+                    </a>
+                    <a href="{{ url_for('reports.day_reports', report_date=d.strftime('%Y-%m-%d'), author=author, notes='true') }}" class="btn btn-sm btn-info">
+                      View/Add Notes
                     </a>
                   </li>
                 {% endfor %}
@@ -136,9 +144,16 @@
         <ul class="list-group">
           {% for day in sorted_days %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d')) }}">
-                {{ day.strftime('%Y-%m-%d') }}
-              </a>
+              <span>
+                <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d')) }}">
+                  {{ day.strftime('%Y-%m-%d') }}
+                </a>
+              </span>
+              <span>
+                <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), notes='true') }}" class="btn btn-sm btn-info">
+                  View/Add Notes
+                </a>
+              </span>
               <span class="badge badge-primary badge-pill">{{ day_counts[day] }}</span>
             </li>
           {% endfor %}
@@ -148,5 +163,12 @@
       {% endif %}
     </div>
   {% endif %}
+
+  <!-- Common Navigation for All Users -->
+  <div class="text-center mt-4">
+    <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary">
+      Return to Profile
+    </a>
+  </div>
 </div>
 {% endblock %}

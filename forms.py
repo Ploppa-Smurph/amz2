@@ -69,11 +69,26 @@ class ResetPasswordForm(FlaskForm):
     )
     submit = SubmitField('Reset Password')
 
+# Form for forcing a password change on the first admin/user login.
+class FirstTimePasswordChangeForm(FlaskForm):
+    new_password = PasswordField(
+        "New Password",
+        validators=[DataRequired(), Length(min=6)],
+        render_kw={"placeholder": "Enter new password"}
+    )
+    confirm_new_password = PasswordField(
+        "Confirm New Password",
+        validators=[DataRequired(), EqualTo('new_password')],
+        render_kw={"placeholder": "Confirm new password"}
+    )
+    submit = SubmitField("Change Password")
+
 # Report form for submitting a new report with optional image and notes.
 class ReportForm(FlaskForm):
     title = StringField(
         'Title',
-        validators=[DataRequired(), Length(max=100)],
+        # Changed validator from DataRequired() to Optional() to allow blank titles.
+        validators=[Optional(), Length(max=100)],
         render_kw={"placeholder": "Enter a title for your report"}
     )
     image = FileField(
@@ -88,16 +103,11 @@ class ReportForm(FlaskForm):
     )
     submit = SubmitField('Post Report')
 
-# Form for forcing a password change on the first admin/user login.
-class FirstTimePasswordChangeForm(FlaskForm):
-    new_password = PasswordField(
-        "New Password",
-        validators=[DataRequired(), Length(min=6)],
-        render_kw={"placeholder": "Enter new password"}
+# Report Note form for adding notes to a report
+class NoteForm(FlaskForm):
+    content = TextAreaField(
+        "Message",
+        validators=[DataRequired(), Length(min=1, max=1000)],
+        render_kw={"placeholder": "Enter your note here..."}
     )
-    confirm_new_password = PasswordField(
-        "Confirm New Password",
-        validators=[DataRequired(), EqualTo('new_password')],
-        render_kw={"placeholder": "Confirm new password"}
-    )
-    submit = SubmitField("Change Password")
+    submit = SubmitField("Post Note")

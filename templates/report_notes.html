@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block title %}Notes for Report{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+  <h2>Notes for Report: {{ report.title or "Untitled" }}</h2>
+  
+  <!-- Display existing notes -->
+  {% for note in notes %}
+    <div class="card mb-3">
+      <div class="card-header">
+        <strong>{{ note.user.username }}</strong> on {{ note.timestamp.strftime('%Y-%m-%d %H:%M') }}
+      </div>
+      <div class="card-body">
+        <p>{{ note.content }}</p>
+        <!-- Display replies -->
+        {% if note.replies %}
+          <div class="ml-4">
+            {% for reply in note.replies %}
+              <div class="card mb-2">
+                <div class="card-header">
+                  <strong>{{ reply.user.username }}</strong> replied on {{ reply.timestamp.strftime('%Y-%m-%d %H:%M') }}
+                </div>
+                <div class="card-body">
+                  <p>{{ reply.content }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+      <div class="card-footer">
+        <a href="#" class="reply-link" data-parent="{{ note.id }}">Reply</a>
+      </div>
+    </div>
+  {% else %}
+    <p>No notes yet. Be the first to comment!</p>
+  {% endfor %}
+
+  <!-- New note form -->
+  <div class="card mt-4">
+    <div class="card-header">Post a New Note</div>
+    <div class="card-body">
+      <form method="post">
+        {{ form.hidden_tag() }}
+        <!-- Hidden field for a parent note ID -->
+        <input type="hidden" name="parent_id" id="parent_id" value="">
+        <div class="form-group">
+          {{ form.content.label }}
+          {{ form.content(class="form-control") }}
+        </div>
+        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Navigation Buttons -->
+  <div class="text-center mt-3">
+    <a href="{{ url_for('reports.daily_reports') }}" class="btn btn-secondary mx-2">View Reports</a>
+    <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary mx-2">Return to Profile</a>
+  </div>
+  
+</div>
+
+<script>
+  // Optional JavaScript to populate parent_id when clicking a reply link.
+  document.querySelectorAll('.reply-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var parentId = this.getAttribute('data-parent');
+      document.getElementById('parent_id').value = parentId;
+      // Optionally scroll to the form.
+      document.getElementById('parent_id').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+{% endblock %}

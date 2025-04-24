@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-
 {% block title %}Report Detail{% endblock %}
-
 {% block content %}
 <div class="container py-4">
   <h1>{{ report.title }}</h1>
@@ -13,9 +11,80 @@
     <p>{{ report.notes }}</p>
   </div>
   {% if report.image_data %}
-    <!-- If you have a mechanism to serve images, place it here -->
-    <p>[Image would be displayed here]</p>
+    <div class="text-center my-3">
+      <img src="data:{{ report.image_mimetype }};base64,{{ report.image_data | b64str }}"
+           alt="{{ report.title }}" class="img-fluid">
+    </div>
   {% endif %}
-  <a href="{{ url_for('reports.daily_reports') }}" class="btn btn-secondary">Back to Reports</a>
+  <div class="mb-3">
+    <a href="{{ url_for('reports.daily_reports') }}" class="btn btn-secondary">Back to Reports</a>
+    <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary ml-2">Return to Profile</a>
+  </div>
+  
+  <hr>
+  <h3>Notes</h3>
+  
+  {# Retrieve top-level notes (those with no parent) #}
+  {% set top_notes = report.threaded_notes | selectattr("parent_id", "equalto", None) | list %}
+  {% if top_notes|length > 0 %}
+    {% for note in top_notes %}
+      <div class="card mb-3">
+        <div class="card-header">
+          <strong>{{ note.user.username }}</strong> on {{ note.timestamp.strftime('%Y-%m-%d %H:%M') }}
+        </div>
+        <div class="card-body">
+          <p>{{ note.content }}</p>
+          {% if note.replies and note.replies|length > 0 %}
+            <div class="ml-4">
+              {% for reply in note.replies %}
+                <div class="card mb-2">
+                  <div class="card-header">
+                    <strong>{{ reply.user.username }}</strong> replied on {{ reply.timestamp.strftime('%Y-%m-%d %H:%M') }}
+                  </div>
+                  <div class="card-body">
+                    <p>{{ reply.content }}</p>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="card-footer">
+          <a href="#" class="reply-link" data-parent="{{ note.id }}">Reply</a>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No notes yet. Be the first to comment!</p>
+  {% endif %}
+  
+  <!-- New Note Form -->
+  <div class="card mt-4" id="new-note-form">
+    <div class="card-header">Post a New Note</div>
+    <div class="card-body">
+      <form method="post">
+        {{ form.hidden_tag() }}
+        <!-- Hidden field for storing parent note ID for threaded replies -->
+        <input type="hidden" name="parent_id" id="parent_id" value="">
+        <div class="form-group">
+          {{ form.content.label }}
+          {{ form.content(class="form-control") }}
+        </div>
+        <button type="submit" class="btn btn-primary">{{ form.submit.label.text }}</button>
+      </form>
+    </div>
+  </div>
 </div>
+
+<script>
+  // When a reply link is clicked, update the hidden parent_id field and scroll smoothly to the new note form.
+  document.querySelectorAll('.reply-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var parentId = this.getAttribute('data-parent');
+      document.getElementById('parent_id').value = parentId;
+      document.getElementById('new-note-form').scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
 {% endblock %}

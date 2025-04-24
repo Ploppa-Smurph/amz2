@@ -18,16 +18,32 @@
           <div class="image-grid preview">
             {% for report in reports[:5] %}
               <div class="image-item">
-                <div class="image-wrapper">
-                  {% if report.image_data %}
-                    <img src="data:{{ report.image_mimetype }};base64,{{ report.image_data | b64str }}"
-                         alt="{{ report.title }}">
-                  {% elif report.s3_key %}
-                    <img src="{{ report.s3_key | public_url }}" alt="{{ report.title }}">
-                  {% else %}
-                    <p>No image available.</p>
-                  {% endif %}
-                </div>
+                <a href="{{ url_for('reports.report_notes', report_id=report.id) }}" class="view-notes-link">
+                  <div class="image-wrapper">
+                    {% if report.image_data %}
+                      <img src="data:{{ report.image_mimetype }};base64,{{ report.image_data | b64str }}"
+                           alt="{{ report.title }}">
+                    {% elif report.s3_key %}
+                      <img src="{{ report.s3_key | public_url }}" alt="{{ report.title }}">
+                    {% else %}
+                      <p>No image available.</p>
+                    {% endif %}
+                  </div>
+                  <div class="caption">
+                    <p class="title">{{ report.title }}</p>
+                    <p class="exif-date">
+                      {% if report.exif_datetime %}
+                        {{ report.exif_datetime.strftime('%Y-%m-%d %H:%M:%S') }}
+                      {% else %}
+                        {{ report.date_posted.strftime('%Y-%m-%d %H:%M:%S') }}
+                      {% endif %}
+                    </p>
+                    <!-- Optional notes button overlay inside caption -->
+                    <div class="notes-btn-container">
+                      <span class="btn btn-sm btn-info">View/Add Notes</span>
+                    </div>
+                  </div>
+                </a>
               </div>
             {% endfor %}
           </div>
@@ -44,5 +60,20 @@
   {% else %}
     <p>No reports found.</p>
   {% endif %}
+
+  <!-- Additional navigation for users with proper permissions -->
+  <div class="text-center mt-3">
+    {% if current_user.role in ['admin', 'manager'] %}
+      <a href="{{ url_for('reports.all_user_reports') }}" class="btn btn-info mx-2">
+        View All User Reports
+      </a>
+      <a href="{{ url_for('reports.all_manager_reports') }}" class="btn btn-info mx-2">
+        View All Manager Reports
+      </a>
+    {% endif %}
+    <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary mx-2">
+      Return to Profile
+    </a>
+  </div>
 </div>
 {% endblock %}

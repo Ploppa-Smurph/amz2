@@ -3,67 +3,74 @@
 {% block content %}
 <div class="container day-reports-container">
   <h2>Reports for {{ day.strftime('%Y-%m-%d') }}</h2>
-  
-  {# --- NEW: Station Notes Section --- #}
+
+  {# --- Station Notes Section (if defined elsewhere) --- #}
   {% if station_notes and station_notes|length > 0 %}
   <div class="station-notes my-3 p-3 border rounded">
     <h3>Station Notes for {{ day.strftime('%Y-%m-%d') }}</h3>
     <ul class="list-unstyled">
       {% for note in station_notes %}
-        <li class="mb-2">
-          <i class="fas fa-sticky-note text-secondary"></i>
-          {{ note }}
-        </li>
+      <li class="mb-2">
+        <i class="fas fa-sticky-note text-secondary"></i> {{ note }}
+      </li>
       {% endfor %}
     </ul>
   </div>
   {% endif %}
-  
+
   <div class="image-grid">
     {% for report in reports %}
-      <div class="image-item">
-        <div class="image-wrapper">
-          {% if report.image_data %}
-            <img src="data:{{ report.image_mimetype }};base64,{{ report.image_data | b64str }}"
-                 alt="{{ report.title }}" class="report-thumb">
-          {% elif report.s3_key %}
-            <img src="{{ report.s3_key | public_url }}" alt="{{ report.title }}" class="report-thumb">
-          {% else %}
-            <p>No image available.</p>
-          {% endif %}
-        </div>
-        <div class="caption">
-          <p class="title">{{ report.title }}</p>
-          <p class="exif-date">
-            {% if report.exif_datetime %}
-               {{ report.exif_datetime.strftime('%Y-%m-%d %H:%M:%S') }}
-            {% else %}
-               {{ report.date_posted.strftime('%Y-%m-%d %H:%M:%S') }}
-            {% endif %}
-          </p>
-        </div>
+    <div class="image-item">
+      <div class="image-wrapper">
+        {% if report.image_data %}
+        <img src="data:{{ report.image_mimetype }};base64,{{ report.image_data | b64str }}" alt="{{ report.title }}"
+          class="report-thumb">
+        {% elif report.s3_key %}
+        <img src="{{ report.s3_key | public_url }}" alt="{{ report.title }}" class="report-thumb">
+        {% else %}
+        <p>No image available.</p>
+        {% endif %}
       </div>
+      <div class="caption">
+        <p class="title">{{ report.title }}</p>
+        <p class="exif-date">
+          {% if report.exif_datetime %}
+          {{ report.exif_datetime.strftime('%Y-%m-%d %H:%M:%S') }}
+          {% else %}
+          {{ report.date_posted.strftime('%Y-%m-%d %H:%M:%S') }}
+          {% endif %}
+        </p>
+      </div>
+      <!-- NEW: Wrap the button in a dedicated container -->
+      <div class="notes-btn-container">
+        <a href="{{ url_for('reports.report_notes', report_id=report.id) }}" class="btn btn-sm btn-info">
+          View/Add Notes
+        </a>
+      </div>
+    </div>
     {% endfor %}
   </div>
-  
+
   <!-- Pagination Controls -->
   <div class="pagination text-center mt-3">
     {% if pagination.current_page > 1 %}
-      <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page - 1) }}" class="btn btn-primary">Previous</a>
+    <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page - 1) }}"
+      class="btn btn-primary">Previous</a>
     {% endif %}
     <span>Page {{ pagination.current_page }} of {{ pagination.total_pages }}</span>
-    {% if pagination.current_page < pagination.total_pages %}
-      <a href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page + 1) }}" class="btn btn-primary">Next</a>
-    {% endif %}
+    {% if pagination.current_page < pagination.total_pages %} <a
+      href="{{ url_for('reports.day_reports', report_date=day.strftime('%Y-%m-%d'), page=pagination.current_page + 1) }}"
+      class="btn btn-primary">Next</a>
+      {% endif %}
   </div>
-  
+
   <br>
   <div class="text-center">
     <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary">Return to Profile</a>
   </div>
 </div>
 
-<!-- Modal Structure -->
+<!-- Modal Structure for Image Zoom/Preview -->
 <div id="imageModal" class="modal">
   <span class="close" id="modalClose">&times;</span>
   <img class="modal-content" id="modalImg">
@@ -71,24 +78,19 @@
 
 <!-- Inline JavaScript for Modal Functionality -->
 <script>
-  // Get the modal
   const modal = document.getElementById("imageModal");
   const modalImg = document.getElementById("modalImg");
   const modalClose = document.getElementById("modalClose");
-
-  // Attach click event listener to all images with class 'report-thumb'
   document.querySelectorAll(".report-thumb").forEach(img => {
-    img.addEventListener("click", function() {
+    img.addEventListener("click", function () {
       modalImg.src = this.src;
       modal.style.display = "block";
     });
   });
-
-  // Close modal when clicking the close icon or outside the image
-  modalClose.onclick = function() {
+  modalClose.onclick = function () {
     modal.style.display = "none";
   };
-  modal.onclick = function(event) {
+  modal.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
     }
