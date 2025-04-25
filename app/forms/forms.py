@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Optional
 from flask_wtf.file import FileField, FileAllowed
-from models import User
+from app.models import User
 
 # Registration form with filters to strip whitespace
 class RegistrationForm(FlaskForm):

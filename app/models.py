@@ -1,12 +1,12 @@
 from datetime import datetime
-from extensions import db, login_manager
+from app.extensions import db, login_manager
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # User loader for Flask-Login
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))
 
 class User(db.Model, UserMixin):
     __tablename__ = 'users'
@@ -29,21 +29,24 @@ class User(db.Model, UserMixin):
         return f"User('{self.username}', '{self.email}', role='{self.role}')"
     
     def get_reset_token(self, expires_sec=1800):
-        from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+        from itsdangerous import URLSafeTimedSerializer
         from flask import current_app
-        s = Serializer(current_app.config['SECRET_KEY'], expires_in=expires_sec)
-        return s.dumps({'user_id': self.id}).decode('utf-8')
+        serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        # Note: URLSafeTimedSerializer does not take an expires_in parameter when dumping.
+        # Instead, expiration is enforced during loading.
+        return serializer.dumps({'user_id': self.id})
     
     @staticmethod
-    def verify_reset_token(token):
-        from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+    def verify_reset_token(token, expires_sec=1800):
+        from itsdangerous import URLSafeTimedSerializer, SignatureExpired, BadSignature
         from flask import current_app
-        s = Serializer(current_app.config['SECRET_KEY'])
+        serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
         try:
-            user_id = s.loads(token)['user_id']
-        except Exception:
+            data = serializer.loads(token, max_age=expires_sec)
+        except (SignatureExpired, BadSignature):
             return None
-        return User.query.get(user_id)
+        # Use the new Session.get() method to retrieve the user.
+        return db.session.get(User, data['user_id'])
 
 # Association table for many-to-many relationship between Report and Tag
 report_tags = db.Table('report_tags',

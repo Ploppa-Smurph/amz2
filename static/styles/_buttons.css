@@ -1,0 +1,80 @@
+/* _buttons.css
+==================================================
+Global Button and Link Styles
+================================================== */
+
+/* Base Button Styles */
+.btn {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+  }
+  
+  /* Disabled Button State */
+  .btn:disabled,
+  .btn.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  /* Large Button Variant */
+  .btn-lg {
+    padding: 1rem 1.5rem;
+    font-size: 1.125rem;
+  }
+  
+  /* Small Button Variant */
+  .btn-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+  
+  /* Centered Button Utility (Full Width) */
+  .center-btn {
+    display: block;
+    text-align: center;
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  /* Accent Button Variant */
+  .btn-accent {
+    background-color: var(--accent-color);
+    color: #fff;
+  }
+  .btn-accent:hover {
+    /* A slightly darker accent for hover; adjust as needed */
+    background-color: #008970;
+  }
+  
+  /* Outlined Button Variant */
+  .btn-outline {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+  }
+  .btn-outline:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+  }
+  
+  /* Secondary Button Variant */
+  .btn-secondary {
+    background-color: var(--secondary-color);
+    color: #fff;
+  }
+  .btn-secondary:hover {
+    /* Slightly darker orange for hover */
+    background-color: #e68a00;
+  }

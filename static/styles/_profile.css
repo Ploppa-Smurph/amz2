@@ -1,0 +1,130 @@
+/* _profile.css
+==================================================
+Profile Page Specific Styles for SHV1 STATION IRREGULARITY LOG
+================================================== */
+
+/* ------------------------------
+   Overall Profile Container
+------------------------------ */
+.profile-page {
+    background: #fff;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* ------------------------------
+     Profile Header
+  ------------------------------ */
+  .profile-header {
+    margin-bottom: 2rem;
+  }
+  
+  .profile-header h1 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+  }
+  
+  .profile-header p {
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  /* ------------------------------
+     Admin Options Section
+  ------------------------------ */
+  .admin-options {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  
+  .admin-options a.btn {
+    margin: 0.5rem;
+  }
+  
+  /* ------------------------------
+     Profile Details Card
+  ------------------------------ */
+  .profile-details.card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .profile-details .card-body {
+    background-color: #f9f9f9;
+    padding: 2rem;
+  }
+  
+  .profile-details h2 {
+    font-size: 2rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .profile-details p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    color: #444;
+  }
+  
+  /* ------------------------------
+     Reports Listing Sections
+  ------------------------------ */
+  .reports-list {
+    margin-top: 2rem;
+  }
+  
+  .reports-list h3 {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* List Group Modifications for Reports */
+  .reports-list ul.list-group {
+    border: none;
+  }
+  
+  .reports-list ul.list-group li {
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+  }
+  
+  .reports-list ul.list-group li:last-child {
+    border-bottom: none;
+  }
+  
+  /* Badge Styling for Report Counts */
+  .badge.badge-primary.badge-pill {
+    font-size: 0.9rem;
+    padding: 0.5em 0.75em;
+    margin-left: 0.5rem;
+  }
+  
+  /* Link/Button Adjustments Inside Profile Details */
+  .profile-details a.btn {
+    margin-top: 1rem;
+  }
+  
+  /* ------------------------------
+     Responsive Adjustments
+  ------------------------------ */
+  @media (max-width: 768px) {
+    .profile-header h1 {
+      font-size: 2rem;
+    }
+    .profile-header p {
+      font-size: 1rem;
+    }
+    .profile-details .card-body {
+      padding: 1rem;
+    }
+    .reports-list h3 {
+      font-size: 1.5rem;
+    }
+  }

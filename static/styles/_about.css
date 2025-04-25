@@ -1,0 +1,130 @@
+/* _about.css
+==================================================
+About Page Specific Styles for SHV1 STATION IRREGULARITY LOG
+================================================== */
+
+/* ------------------------------
+   Overall About Page Container
+------------------------------ */
+.about-page {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  /* ------------------------------
+     Business Letter Section
+  ------------------------------ */
+  .business-letter {
+    font-family: 'Times New Roman', Georgia, serif;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 2rem;
+    margin-bottom: 3rem;
+    line-height: 1.8;
+  }
+  
+  .business-letter h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem;
+    text-align: center;
+    color: var(--primary-color);
+  }
+  
+  .business-letter .letter-content p {
+    margin-bottom: 1rem;
+    text-align: justify;
+  }
+  
+  /* ------------------------------
+     Project Documentation Section
+  ------------------------------ */
+  .project-doc {
+    font-family: 'Open Sans', Arial, sans-serif;
+    margin-top: 2rem;
+    padding: 2rem;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    line-height: 1.6;
+  }
+  
+  .project-doc h1,
+  .project-doc h2 {
+    margin-bottom: 1rem;
+    text-align: center;
+    color: var(--primary-color);
+    font-weight: bold;
+  }
+  
+  /* Underlined h2 headings */
+  .project-doc h2 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.5rem;
+  }
+  
+  .project-doc p {
+    margin-bottom: 1.25rem;
+    font-size: 1.125rem;
+    text-align: justify;
+  }
+  
+  .project-doc ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .project-doc ul li {
+    margin-bottom: 0.75rem;
+    padding-left: 1.2rem;
+    position: relative;
+    font-size: 1.125rem;
+    color: #444;
+  }
+  
+  .project-doc ul li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: var(--secondary-color);
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+  
+  /* ------------------------------
+     Contact Information Section
+  ------------------------------ */
+  .contact-info {
+    background: #f7f7f7;
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin-top: 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .contact-info h2 {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .contact-info ul {
+    list-style: none;
+    padding: 0;
+    font-size: 1.1rem;
+  }
+  
+  .contact-info ul li {
+    margin-bottom: 0.75rem;
+  }
+  
+  .contact-info a {
+    text-decoration: none;
+    color: var(--primary-color);
+    transition: color 0.2s ease;
+  }
+  
+  .contact-info a:hover {
+    color: var(--secondary-color);
+  }

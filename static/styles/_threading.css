@@ -1,0 +1,22 @@
+/* _threading.css
+==================================================
+Threading & Reply Styles for SHV1 STATION IRREGULARITY LOG
+================================================== */
+
+.reply-link {
+    font-size: 0.9rem;
+    color: var(--secondary-color);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .reply-link:hover {
+    color: var(--accent-color);
+  }
+  
+  .note-reply {
+    margin-left: 2rem;
+    border-left: 2px solid var(--secondary-color);
+    padding-left: 1rem;
+    margin-top: 1rem;
+  }

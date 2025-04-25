@@ -1,10 +1,11 @@
 import os
 import mimetypes
 from datetime import datetime, timezone
-from app import app
-from extensions import db
-from models import Report, User
-from amazon_utils import list_images, get_exif_datetime
+from app import create_app  # Import factory function
+app = create_app()         # Create an application instance
+from app.extensions import db
+from app.models import Report, User
+from app.utils.amazon_utils import list_images, get_exif_datetime  # Updated import path
 import boto3
 
 # Ensure your bucket name and region are set in the environment variables
@@ -60,14 +61,14 @@ def main():
             # Create a report that stores the S3 key and the extracted EXIF datetime.
             report = Report(
                 title=s3_key,
-                notes=f"Image taken on {exif_dt.isoformat()}",  # Use notes instead of content
+                notes=f"Image taken on {exif_dt.isoformat()}",
                 image_data=img_data,
                 image_mimetype=mimetype,
                 s3_key=s3_key,
                 exif_datetime=exif_dt,
                 author=user
             )
-            # Optionally, you can set the report's posting time if needed:
+            # Optionally, set the report's posting time.
             report.date_posted = exif_dt
 
             db.session.add(report)

@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <!-- Use the page-specific title followed by the application name -->
-    <title>{% block title %}SHV1 STATION IRREGULARITY LOG{% endblock %}</title>
-    <!-- Bootstrap CSS (loaded first) -->
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-          crossorigin="anonymous">
-    <!-- Custom CSS loaded second -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/styles.css') }}">
+  <meta charset="UTF-8">
+  <title>{% block title %}SHV1 STATION IRREGULARITY LOG{% endblock %}</title>
+  <!-- Bootstrap CSS (loaded first) -->
+  <link rel="stylesheet"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+  <!-- Modular Custom CSS files -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_header.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_layout.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_buttons.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_home.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_about.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_profile.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_reports.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_notes.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_modal.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/_threading.css') }}">
 </head>
 <body>
   <header>
      {% include 'nav.html' %}
   </header>
-  <main>
+  <main class="container mt-4">
      {% with messages = get_flashed_messages(with_categories=true) %}
        {% if messages %}
          {% for category, message in messages %}
@@ -28,7 +37,7 @@
      {% endwith %}
      {% block content %}{% endblock %}
   </main>
-  <footer>
+  <footer class="footer text-center py-3">
      <p>&copy; 2025 | SHV1 STATION IRREGULARITY LOG | WALLEY WEB WORLD</p>
   </footer>
   <!-- Optional Bootstrap JS and its dependencies -->
