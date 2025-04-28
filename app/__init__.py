@@ -14,7 +14,7 @@ load_dotenv()
 from app.extensions import db, login_manager
 
 def create_app(test_config=None):
-    # Determine the project root directory
+    # Determine the project root directory.
     basedir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
     # Create the Flask application.
@@ -27,17 +27,20 @@ def create_app(test_config=None):
     )
 
     # Load default configuration.
+    # When deploying to Railway, set the environment variable DATABASE_URL to:
+    #     ${{ Postgres.DATABASE_URL }}
+    # This ensures that your app connects to Railway's PostgreSQL instance.
     app.config.from_mapping(
-        SECRET_KEY = os.getenv('SECRET_KEY', 'your-very-secure-secret-key'),
-        SQLALCHEMY_DATABASE_URI = os.getenv(
-            'DATABASE_URL',
+        SECRET_KEY=os.getenv('SECRET_KEY', 'your-very-secure-secret-key'),
+        SQLALCHEMY_DATABASE_URI=os.getenv(
+            'DATABASE_URL',  # Railway will provide a PostgreSQL URL here.
             'sqlite:///' + os.path.join(app.instance_path, 'site.db')
         ),
-        SQLALCHEMY_TRACK_MODIFICATIONS = False,
-        SESSION_PERMANENT = False,
-        SERVER_RUN_ID = str(uuid.uuid4()),
-        # For production, AUTO_CREATE_DB should be False.
-        AUTO_CREATE_DB = False
+        SQLALCHEMY_TRACK_MODIFICATIONS=False,
+        SESSION_PERMANENT=False,
+        SERVER_RUN_ID=str(uuid.uuid4()),
+        AUTO_CREATE_DB=False,  # Set to True only if you want to auto-create tables without dropping.
+        AUTO_DROP_DB=False,    # For development only. In production, set this to False.
     )
 
     # Override configuration if test_config is provided.
@@ -94,8 +97,7 @@ def create_app(test_config=None):
 
     @app.route('/contact')
     def contact():
-        # Since contact.html was merged into about.html:
-        return render_template('about.html')
+        return render_template('about.html')  # Using about.html for contact.
 
     # Configure logging (only if not in debug mode).
     if not app.debug:
@@ -115,7 +117,7 @@ def create_app(test_config=None):
         app.logger.setLevel(logging.INFO)
         app.logger.info('MyApp startup')
 
-    # 404 Error handler.
+    # Custom 404 error handler.
     @app.errorhandler(404)
     def page_not_found(error):
         return render_template('404.html'), 404
@@ -129,13 +131,18 @@ def create_app(test_config=None):
                 logout_user()
                 session.clear()
 
-    # Optional: Auto-create tables if AUTO_CREATE_DB is set to True.
-    if app.config.get("AUTO_CREATE_DB", False):
-        with app.app_context():
+    # Optional: Drop (if configured) and/or create tables.
+    with app.app_context():
+        if app.config.get("AUTO_DROP_DB", False):
+            db.drop_all()
+            app.logger.info("Dropped all tables in the database.")
             db.create_all()
+            app.logger.info("Created all tables in the database after dropping them.")
+        elif app.config.get("AUTO_CREATE_DB", False):
+            db.create_all()
+            app.logger.info("Created all tables in the database.")
 
     # Create default admin if not already present.
-    # This block ensures that there is a user named "admin" with admin permissions.
     with app.app_context():
         try:
             from sqlalchemy import inspect
@@ -156,7 +163,10 @@ def create_app(test_config=None):
                     admin.set_password(os.getenv("DEFAULT_ADMIN_PASSWORD", "password"))
                     db.session.add(admin)
                     db.session.commit()
-                    app.logger.info("Default admin user created: username='admin' with password='%s'", os.getenv("DEFAULT_ADMIN_PASSWORD", "password"))
+                    app.logger.info(
+                        "Default admin user created: username='admin' with password='%s'",
+                        os.getenv("DEFAULT_ADMIN_PASSWORD", "password")
+                    )
             else:
                 app.logger.warning("Skipping default admin creation: 'users' table does not exist.")
         except Exception as e:
