@@ -7,15 +7,28 @@
     <strong>Author:</strong> {{ report.author.username }}<br>
     <strong>Date:</strong> {{ (report.exif_datetime or report.date_posted).strftime('%Y-%m-%d %H:%M') }}
   </p>
+  
+  <!-- Display many-to-many relationship: Tags -->
+  <p>
+    <strong>Tags:</strong>
+    {% for tag in report.tags %}
+      <span class="badge badge-info">{{ tag.name }}</span>
+    {% else %}
+      <span>No tags available.</span>
+    {% endfor %}
+  </p>
+  
   <div>
     <p>{{ report.notes }}</p>
   </div>
+  
   {% if report.image_data %}
     <div class="text-center my-3">
       <img src="data:{{ report.image_mimetype }};base64,{{ report.image_data | b64str }}"
            alt="{{ report.title }}" class="img-fluid">
     </div>
   {% endif %}
+  
   <div class="mb-3">
     <a href="{{ url_for('reports.daily_reports') }}" class="btn btn-secondary">Back to Reports</a>
     <a href="{{ url_for('auth.profile') }}" class="btn btn-secondary ml-2">Return to Profile</a>
@@ -77,7 +90,7 @@
 </div>
 
 <script>
-  // When a reply link is clicked, update the hidden parent_id field and scroll smoothly to the new note form.
+  // When a reply link is clicked, update the hidden parent_id field and smoothly scroll to the new note form.
   document.querySelectorAll('.reply-link').forEach(function(link) {
     link.addEventListener('click', function(e) {
       e.preventDefault();

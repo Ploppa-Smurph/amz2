@@ -1,6 +1,6 @@
 # forms.py
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Optional
 from flask_wtf.file import FileField, FileAllowed
 from app.models import User
@@ -83,11 +83,9 @@ class FirstTimePasswordChangeForm(FlaskForm):
     )
     submit = SubmitField("Change Password")
 
-# Report form for submitting a new report with optional image and notes.
 class ReportForm(FlaskForm):
     title = StringField(
         'Title',
-        # Changed validator from DataRequired() to Optional() to allow blank titles.
         validators=[Optional(), Length(max=100)],
         render_kw={"placeholder": "Enter a title for your report"}
     )
@@ -101,6 +99,12 @@ class ReportForm(FlaskForm):
         validators=[Optional()],
         render_kw={"placeholder": "Enter any notes regarding the issue (optional)"}
     )
+    # New field: Users can submit tags as comma separated values when creating a report.
+    tags = StringField(
+        'Tags (comma separated)',
+        validators=[Optional()],
+        render_kw={"placeholder": "e.g. Bug, UI, Urgent"}
+    )
     submit = SubmitField('Post Report')
 
 # Report Note form for adding notes to a report
@@ -111,3 +115,14 @@ class NoteForm(FlaskForm):
         render_kw={"placeholder": "Enter your note here..."}
     )
     submit = SubmitField("Post Note")
+
+# Tag form for adding a tag using predefined choices (used in the report notes page)
+class TagForm(FlaskForm):
+    tag = SelectField('Select a Tag/Reason', choices=[
+        ('', '-- Select a Tag --'),
+        ('Tote Conveyance', 'Tote Conveyance'),
+        ('Tote Lag / Out of Work', 'Tote Lag / Out of Work'),
+        ('Damaged Tote', 'Damaged Tote'),
+        ('Missing Tote', 'Missing Tote')
+    ], validators=[Optional()])
+    submit = SubmitField('Add Tag')

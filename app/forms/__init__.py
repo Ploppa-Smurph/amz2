@@ -6,7 +6,8 @@ from .forms import (
     ResetPasswordForm,
     FirstTimePasswordChangeForm,
     ReportForm,
-    NoteForm
+    NoteForm,
+    TagForm
 )
 from .admin_forms import RoleChangeForm, AdminCreateUserForm
 
@@ -20,5 +21,6 @@ __all__ = [
     "ReportForm",
     "NoteForm",
     "RoleChangeForm",
-    "AdminCreateUserForm"
+    "AdminCreateUserForm",
+    "TagForm"
 ]
