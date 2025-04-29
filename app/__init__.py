@@ -7,10 +7,10 @@ from flask import Flask, render_template, session
 from dotenv import load_dotenv
 from flask_migrate import Migrate
 
-# Load environment variables from .env
+# Load environment variables (if any)
 load_dotenv()
 
-# Import the shared extensions at the module level.
+# Import shared extensions.
 from app.extensions import db, login_manager
 
 def create_app(test_config=None):
@@ -26,32 +26,27 @@ def create_app(test_config=None):
         instance_relative_config=True
     )
 
-    # Load default configuration.
-    # When deploying to Railway, set the environment variable DATABASE_URL to:
-    #     ${{ Postgres.DATABASE_URL }}
-    # This ensures that your app connects to Railway's PostgreSQL instance.
-    app.config.from_mapping(
-        SECRET_KEY=os.getenv('SECRET_KEY', 'your-very-secure-secret-key'),
-        SQLALCHEMY_DATABASE_URI=os.getenv(
-            'DATABASE_URL',  # Railway will provide a PostgreSQL URL here.
-            'sqlite:///' + os.path.join(app.instance_path, 'site.db')
-        ),
-        SQLALCHEMY_TRACK_MODIFICATIONS=False,
-        SESSION_PERMANENT=False,
-        SERVER_RUN_ID=str(uuid.uuid4()),
-        AUTO_CREATE_DB=False,  # Set to True only if you want to auto-create tables without dropping.
-        AUTO_DROP_DB=False,    # For development only. In production, set this to False.
-    )
-
-    # Override configuration if test_config is provided.
-    if test_config is not None:
-        app.config.update(test_config)
-
     # Ensure the instance folder exists.
     try:
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    # Load default configuration.
+    # This configuration forces the app to always use the local SQLite database.
+    app.config.from_mapping(
+        SECRET_KEY=os.getenv('SECRET_KEY', 'your-very-secure-secret-key'),
+        SQLALCHEMY_DATABASE_URI='sqlite:///' + os.path.join(app.instance_path, 'site.db'),
+        SQLALCHEMY_TRACK_MODIFICATIONS=False,
+        SESSION_PERMANENT=False,
+        SERVER_RUN_ID=str(uuid.uuid4()),
+        AUTO_CREATE_DB=False,  # Migrations will manage table creation.
+        AUTO_DROP_DB=False,
+    )
+
+    # Override configuration if test_config is provided.
+    if test_config is not None:
+        app.config.update(test_config)
 
     # Initialize extensions.
     db.init_app(app)
@@ -97,7 +92,8 @@ def create_app(test_config=None):
 
     @app.route('/contact')
     def contact():
-        return render_template('about.html')  # Using about.html for contact.
+        # Using about.html for contact.
+        return render_template('about.html')
 
     # Configure logging (only if not in debug mode).
     if not app.debug:
@@ -131,16 +127,11 @@ def create_app(test_config=None):
                 logout_user()
                 session.clear()
 
-    # Optional: Drop (if configured) and/or create tables.
-    with app.app_context():
-        if app.config.get("AUTO_DROP_DB", False):
-            db.drop_all()
-            app.logger.info("Dropped all tables in the database.")
-            db.create_all()
-            app.logger.info("Created all tables in the database after dropping them.")
-        elif app.config.get("AUTO_CREATE_DB", False):
-            db.create_all()
-            app.logger.info("Created all tables in the database.")
+    # Note: We no longer call db.create_all() here.
+    # With migrations in use, you must run:
+    #   flask db migrate -m "migration message"
+    #   flask db upgrade
+    # to update your database schema.
 
     # Create default admin if not already present.
     with app.app_context():
