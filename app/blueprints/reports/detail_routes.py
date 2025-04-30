@@ -40,8 +40,7 @@ def new_report():
             )
             db.session.add(initial_note)
 
-        # --- New: Process the Tag value from the dropdown ---
-        # The new_reports.html page includes a dropdown with name="tags"
+        # The dropdown with name="tags"
         selected_tag_name = request.form.get('tags', '').strip()
         if selected_tag_name:
             # Check if the tag already exists. Create it if not.

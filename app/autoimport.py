@@ -43,7 +43,9 @@ def main():
         for image in images:
             s3_key = image.get('key')
             # Check if a report for this S3 key already exists using the new s3_key field.
-            if Report.query.filter_by(s3_key=s3_key).first():
+            existing = Report.query.filter_by(s3_key=s3_key).first()
+            if existing:
+                print(f"Report for key '{s3_key}' already exists. Skipping duplicate.")
                 continue
 
             img_data, mimetype = get_image_data(s3_key)
@@ -74,8 +76,12 @@ def main():
             db.session.add(report)
             print(f"Imported report for key: {s3_key}")
 
-        db.session.commit()
-        print("Finished importing reports.")
+        try:
+            db.session.commit()
+            print("Finished importing reports.")
+        except Exception as e:
+            db.session.rollback()
+            print(f"Error committing reports to the database: {e}")
 
 if __name__ == '__main__':
     main()
