@@ -11,51 +11,58 @@
    Global Container Layout
 ------------------------------ */
 .container {
-    /* Ensure content is centered with responsive width */
-    max-width: 85vw;
-    margin: 2rem auto;
-    padding: 1rem;
-  }
-  
-  /* Main content spacing (applies to the <main> element) */
-  main {
-    padding: 2rem 0;
-  }
-  
-  /* Section margins for overall page separation */
-  section {
-    padding: 2rem 0;
-    margin-bottom: 2rem;
-  }
-  
-  /* ------------------------------
-     Footer Styling
-  ------------------------------ */
-  footer {
-    text-align: center;
-    padding: 1rem;
-    margin-top: 2rem;
-    background-color: #f7f7f7;
-    border-top: 1px solid var(--border-color);
-  }
-  
-  footer p {
-    font-size: 0.9rem;
-    color: #777;
-  }
-  
-  /* ------------------------------
+  /* Ensure content is centered with responsive width */
+  max-width: 85vw;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+/* Main content spacing (applies to the <main> element) */
+main {
+  padding: 2rem 0;
+}
+
+/* Section margins for overall page separation */
+section {
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+}
+
+/* ------------------------------
+   Footer Styling - Sticky Footer
+------------------------------ */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--secondary-color);
+  /* Uses project orange */
+  color: #fff;
+  /* White text for high contrast */
+  text-align: center;
+  padding: 1rem;
+  z-index: 1000;
+}
+
+footer p {
+  font-size: 1rem;
+  margin: 0;
+
+}
+
+/* ------------------------------
      Layout Responsive Adjustments
   ------------------------------ */
-  @media (max-width: 768px) {
-    .container {
-      max-width: 95vw;
-      padding: 0.5rem;
-    }
-  
-    /* Optional: Adjust header navigation layout for smaller screens */
-    header nav {
-      flex-direction: column;
-      align-items: flex-start;
-    }
+@media (max-width: 768px) {
+  .container {
+    max-width: 95vw;
+    padding: 0.5rem;
   }
+
+  /* Optional: Adjust header navigation layout for smaller screens */
+  header nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

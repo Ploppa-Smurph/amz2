@@ -1,65 +1,4 @@
-2025-04-29 16:48:26,907 ERROR: Exception on /auth/login [POST] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
-Traceback (most recent call last):
-  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
-    response = self.full_dispatch_request()
-  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "D:\courses\amz2\app\blueprints\auth\public_routes.py", line 59, in login
-    user = User.query.filter_by(username=form.username.data).first()
-           ^^^^^^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
-    return cls.query_class(
-           ~~~~~~~~~~~~~~~^
-        cls, session=cls.__fsa__.session()  # type: ignore[arg-type]
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "D:\courses\amz2\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
-    self._set_entities(entities)
-    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 289, in _set_entities
-    coercions.expect(
-    ~~~~~~~~~~~~~~~~^
-        roles.ColumnsClauseRole,
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<2 lines>...
-        post_inspect=True,
-        ^^^^^^^^^^^^^^^^^^
-    )
-    ^
-  File "D:\courses\amz2\venv\Lib\site-packages\sqlalchemy\sql\coercions.py", line 388, in expect
-    insp._post_inspect
-  File "D:\courses\amz2\venv\Lib\site-packages\sqlalchemy\util\langhelpers.py", line 1257, in __get__
-    obj.__dict__[self.__name__] = result = self.fget(obj)
-                                           ~~~~~~~~~^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2724, in _post_inspect
-    self._check_configure()
-    ~~~~~~~~~~~~~~~~~~~~~^^
-  File "D:\courses\amz2\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 2401, in _check_configure
-    _configure_registries({self.registry}, cascade=True)
-    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4214, in _configure_registries
-    _do_configure_registries(registries, cascade)
-    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\sqlalchemy\orm\mapper.py", line 4251, in _do_configure_registries
-    raise e
-sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[User(users)]'. Original exception was: Could not determine join condition between parent/child tables on relationship User.tags - there are no foreign keys linking these tables via secondary table 'report_tags'.  Ensure that referencing columns are associated with a ForeignKey or ForeignKeyConstraint, or specify 'primaryjoin' and 'secondaryjoin' expressions.
-2025-04-29 16:50:32,451 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
-2025-04-29 16:50:32,463 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
-2025-04-29 16:50:37,813 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
-2025-04-29 16:50:37,825 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
-2025-04-29 16:50:45,658 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
-2025-04-29 16:50:45,670 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
-2025-04-29 17:42:02,489 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
-2025-04-29 17:42:02,502 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
-2025-04-29 17:47:32,373 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
-2025-04-29 17:47:32,386 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
-2025-04-29 17:48:30,723 ERROR: Exception on /reports/report/319/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
+2025-04-29 17:52:35,357 ERROR: Exception on /reports/report/319/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -74,7 +13,8 @@ Traceback (most recent call last):
     return current_app.ensure_sync(func)(*args, **kwargs)
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
   File "D:\courses\amz2\app\blueprints\reports\detail_routes.py", line 128, in report_notes
-    return render_template('report_notes.html', report=report, form=form, notes=top_notes)
+    Displays all notes attached to a given report and allows posting a note or reply.
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
     return _render(app, template, context)
   File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 131, in _render
@@ -104,3 +44,97 @@ Traceback (most recent call last):
   File "D:\courses\amz2\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
     raise BuildError(endpoint, values, method, self)
 werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'reports.add_tag' with values ['report_id']. Did you mean 'reports.new_report' instead?
+2025-04-29 17:53:07,001 ERROR: Exception on /reports/report/319/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
+Traceback (most recent call last):
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\app\blueprints\reports\detail_routes.py", line 128, in report_notes
+    Displays all notes attached to a given report and allows posting a note or reply.
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "D:\courses\amz2\venv\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\courses\amz2\venv\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\courses\amz2\templates\report_notes.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\courses\amz2\templates\base.html", line 38, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\templates\report_notes.html", line 12, in block 'content'
+    <form method="post" action="{{ url_for('reports.add_tag', report_id=report.id) }}">
+    ^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "D:\courses\amz2\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'reports.add_tag' with values ['report_id']. Did you mean 'reports.new_report' instead?
+2025-04-29 17:53:44,849 ERROR: Exception on /reports/report/318/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
+Traceback (most recent call last):
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\app\blueprints\reports\detail_routes.py", line 128, in report_notes
+    Displays all notes attached to a given report and allows posting a note or reply.
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
+    return _render(app, template, context)
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 131, in _render
+    rv = template.render(context)
+  File "D:\courses\amz2\venv\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "D:\courses\amz2\venv\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "D:\courses\amz2\templates\report_notes.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "D:\courses\amz2\templates\base.html", line 38, in top-level template code
+    {% block content %}{% endblock %}
+    ^^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\templates\report_notes.html", line 12, in block 'content'
+    <form method="post" action="{{ url_for('reports.add_tag', report_id=report.id) }}">
+    ^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+        endpoint,
+    ...<3 lines>...
+        force_external=_external,
+    )
+  File "D:\courses\amz2\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'reports.add_tag' with values ['report_id']. Did you mean 'reports.new_report' instead?
+2025-04-29 17:59:38,258 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
+2025-04-29 17:59:38,270 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]

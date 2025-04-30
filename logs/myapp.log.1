@@ -1,4 +1,4 @@
-2025-04-29 17:52:35,357 ERROR: Exception on /reports/report/319/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
+2025-04-29 17:59:56,675 ERROR: Exception on /reports/report/319/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -12,9 +12,8 @@ Traceback (most recent call last):
   File "D:\courses\amz2\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\app\blueprints\reports\detail_routes.py", line 128, in report_notes
-    Displays all notes attached to a given report and allows posting a note or reply.
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\app\blueprints\reports\detail_routes.py", line 160, in report_notes
+    return render_template('report_notes.html', report=report, form=form, notes=top_notes)
   File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
     return _render(app, template, context)
   File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 131, in _render
@@ -29,22 +28,14 @@ Traceback (most recent call last):
   File "D:\courses\amz2\templates\base.html", line 38, in top-level template code
     {% block content %}{% endblock %}
     ^^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\templates\report_notes.html", line 12, in block 'content'
-    <form method="post" action="{{ url_for('reports.add_tag', report_id=report.id) }}">
-    ^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1121, in url_for
-    return self.handle_url_build_error(error, endpoint, values)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1110, in url_for
-    rv = url_adapter.build(  # type: ignore[union-attr]
-        endpoint,
-    ...<3 lines>...
-        force_external=_external,
-    )
-  File "D:\courses\amz2\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'reports.add_tag' with values ['report_id']. Did you mean 'reports.new_report' instead?
-2025-04-29 17:53:07,001 ERROR: Exception on /reports/report/319/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
+  File "D:\courses\amz2\templates\report_notes.html", line 13, in block 'content'
+    {{ csrf_token() }} {# or if you do not have a global function, use {{ tag_form.hidden_tag() }} #}
+    ^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\jinja2\utils.py", line 92, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2025-04-29 18:11:08,545 ERROR: Exception on /reports/report/319/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -58,9 +49,7 @@ Traceback (most recent call last):
   File "D:\courses\amz2\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\app\blueprints\reports\detail_routes.py", line 128, in report_notes
-    Displays all notes attached to a given report and allows posting a note or reply.
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\app\blueprints\reports\detail_routes.py", line 160, in report_notes
   File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
     return _render(app, template, context)
   File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 131, in _render
@@ -75,22 +64,14 @@ Traceback (most recent call last):
   File "D:\courses\amz2\templates\base.html", line 38, in top-level template code
     {% block content %}{% endblock %}
     ^^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\templates\report_notes.html", line 12, in block 'content'
-    <form method="post" action="{{ url_for('reports.add_tag', report_id=report.id) }}">
-    ^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1121, in url_for
-    return self.handle_url_build_error(error, endpoint, values)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1110, in url_for
-    rv = url_adapter.build(  # type: ignore[union-attr]
-        endpoint,
-    ...<3 lines>...
-        force_external=_external,
-    )
-  File "D:\courses\amz2\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'reports.add_tag' with values ['report_id']. Did you mean 'reports.new_report' instead?
-2025-04-29 17:53:44,849 ERROR: Exception on /reports/report/318/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
+  File "D:\courses\amz2\templates\report_notes.html", line 13, in block 'content'
+    {{ tag_form.hidden_tag() }}
+    ^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\jinja2\utils.py", line 92, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2025-04-29 18:11:30,057 ERROR: Exception on /reports/report/319/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
 Traceback (most recent call last):
   File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
     response = self.full_dispatch_request()
@@ -104,9 +85,7 @@ Traceback (most recent call last):
   File "D:\courses\amz2\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\app\blueprints\reports\detail_routes.py", line 128, in report_notes
-    Displays all notes attached to a given report and allows posting a note or reply.
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\app\blueprints\reports\detail_routes.py", line 160, in report_notes
   File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 150, in render_template
     return _render(app, template, context)
   File "D:\courses\amz2\venv\Lib\site-packages\flask\templating.py", line 131, in _render
@@ -121,20 +100,42 @@ Traceback (most recent call last):
   File "D:\courses\amz2\templates\base.html", line 38, in top-level template code
     {% block content %}{% endblock %}
     ^^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\templates\report_notes.html", line 12, in block 'content'
-    <form method="post" action="{{ url_for('reports.add_tag', report_id=report.id) }}">
-    ^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1121, in url_for
-    return self.handle_url_build_error(error, endpoint, values)
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1110, in url_for
-    rv = url_adapter.build(  # type: ignore[union-attr]
-        endpoint,
-    ...<3 lines>...
-        force_external=_external,
-    )
-  File "D:\courses\amz2\venv\Lib\site-packages\werkzeug\routing\map.py", line 924, in build
-    raise BuildError(endpoint, values, method, self)
-werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'reports.add_tag' with values ['report_id']. Did you mean 'reports.new_report' instead?
-2025-04-29 17:59:38,258 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
-2025-04-29 17:59:38,270 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
+  File "D:\courses\amz2\templates\report_notes.html", line 13, in block 'content'
+    {{ tag_form.hidden_tag() }}
+    ^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\jinja2\utils.py", line 92, in from_obj
+    if hasattr(obj, "jinja_pass_arg"):
+       ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+jinja2.exceptions.UndefinedError: 'csrf_token' is undefined
+2025-04-29 18:11:46,061 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
+2025-04-29 18:11:46,074 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
+2025-04-29 18:12:49,201 ERROR: Exception on /reports/report/320/notes [GET] [in D:\courses\amz2\venv\Lib\site-packages\flask\app.py:875]
+Traceback (most recent call last):
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\courses\amz2\venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "D:\courses\amz2\venv\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\courses\amz2\app\blueprints\reports\detail_routes.py", line 142, in report_notes
+    tag_form = TagForm()  # Instantiate the tag form for CSRF protection and tag selection.
+               ^^^^^^^
+NameError: name 'TagForm' is not defined
+2025-04-29 18:21:40,761 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
+2025-04-29 18:21:40,774 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
+2025-04-29 18:36:24,788 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
+2025-04-29 18:36:24,802 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
+2025-04-29 18:52:32,336 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
+2025-04-29 18:52:32,349 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
+2025-04-29 19:15:20,711 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
+2025-04-29 19:15:20,725 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
+2025-04-29 19:26:13,890 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
+2025-04-29 19:26:13,902 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]
+2025-04-29 20:33:19,377 INFO: MyApp startup [in D:\courses\amz2\app\__init__.py:114]
+2025-04-29 20:33:19,390 INFO: Admin user 'admin' already exists with proper permissions. [in D:\courses\amz2\app\__init__.py:151]

@@ -69,12 +69,13 @@ Global Button and Link Styles
     color: #fff;
   }
   
-  /* Secondary Button Variant */
-  .btn-secondary {
-    background-color: var(--secondary-color);
-    color: #fff;
-  }
-  .btn-secondary:hover {
-    /* Slightly darker orange for hover */
-    background-color: #e68a00;
-  }
+ /* Secondary Button Variant */
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+.btn-secondary:hover {
+  /* Slightly darker orange for hover */
+  background-color: #e68a00;
+  color: #fff; /* Ensures the text stays white (a color other than orange) during hover */
+}

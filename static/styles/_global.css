@@ -11,6 +11,8 @@
   --secondary-color: #ff9900;     /* Amazon orange */
   --accent-color: #00a884;        /* Teal accent */
   --background-color: #fff;       /* White background */
+  --backgound-color-dark: #232f3e; /* Dark Amazon blue-gray background */
+  --text-color-light: #f7f7f7;    /* Light text color for dark backgrounds */
   --text-color: #333;
   --header-background: #131921;   /* Dark blue near black */
   --link-hover-color: var(--secondary-color);
@@ -82,6 +84,17 @@ img, video {
   max-width: 100%;
   height: auto;
   display: block;
+}
+
+.alert {
+  position: fixed; /* Keeps it fixed at the top */
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: auto;
+  z-index: 10000; /* Ensures alerts are above everything */
+  opacity: 1;
+  transition: opacity 0.5s ease-out;
 }
 
 /* ---------------------------------------------------------
