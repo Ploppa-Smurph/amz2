@@ -78,6 +78,7 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+# Route for users to request password reset link via email
 @auth_bp.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
     if current_user.is_authenticated:
@@ -92,6 +93,7 @@ def reset_password_request():
         return redirect(url_for('auth.login'))
     return render_template('reset_password_request.html', title='Reset Password', form=form)
 
+# Route to reset password using the token sent via email
 @auth_bp.route('/reset_password/<token>', methods=['GET', 'POST'])
 def reset_password(token):
     if current_user.is_authenticated:
